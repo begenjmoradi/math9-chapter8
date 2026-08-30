@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فصل ۸ - بخش پنجم: اشکال ترکیبی</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family: 'Vazirmatn','Segoe UI',sans-serif; background:#0a0a1a; color:white; overflow:hidden; height:100vh; user-select:none; }
+        #header { position:absolute; top:8px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:white; padding:6px 18px 5px 18px; border-radius:25px; z-index:100; border:1px solid rgba(255,215,0,0.2); backdrop-filter:blur(10px); text-align:center; min-width:160px; pointer-events:none; width:auto; max-width:90%; }
+        #header .main-title { font-size:18px; font-weight:700; color:#ffd700; }
+        #header .main-title span { color:#ffffff; }
+        #header .sub-title { font-size:13px; color:rgba(255,255,255,0.35); margin-top:1px; border-top:1px solid rgba(255,255,255,0.05); padding-top:2px; }
+        #slide-content { position:absolute; top:52%; right:50%; transform:translate(50%,-50%); width:96%; max-width:500px; height:82vh; max-height:720px; z-index:30; background:rgba(0,0,0,0.75); backdrop-filter:blur(15px); border-radius:20px; border:1px solid rgba(255,255,255,0.05); padding:14px 16px; display:flex; flex-direction:column; gap:6px; box-shadow:0 20px 60px rgba(0,0,0,0.6); overflow:hidden; }
+        #slide-text-area { display:flex; flex-direction:column; overflow-y:auto; flex:0 0 auto; max-height:50%; padding:0 2px; }
+        #slide-text-area::-webkit-scrollbar { width:3px; }
+        #slide-text-area::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.15); border-radius:3px; }
+        #slide-title { font-size:22px; font-weight:700; color:#ffd700; margin-bottom:6px; display:flex; align-items:center; gap:8px; flex-shrink:0; }
+        #slide-title .slide-num { font-size:16px; color:rgba(255,255,255,0.12); font-weight:400; }
+        #slide-body { font-size:18px; line-height:2.2; color:rgba(255,255,255,0.92); }
+        #slide-body p { margin-bottom:6px; }
+        #slide-body .highlight { color:#ffd700; font-weight:600; }
+        #slide-body .highlight-red { color:#ff6b6b; font-weight:600; }
+        #slide-body .highlight-blue { color:#4a6cf7; font-weight:600; }
+        #slide-body .highlight-green { color:#00ff88; font-weight:600; }
+        #slide-body .box { background:rgba(255,215,0,0.06); border-right:3px solid #ffd700; padding:6px 14px; border-radius:6px; margin:4px 0; font-size:17px; }
+        #slide-body .box-red { background:rgba(255,107,107,0.06); border-right:3px solid #ff6b6b; padding:6px 14px; border-radius:6px; margin:4px 0; font-size:17px; }
+        #slide-body .box-blue { background:rgba(74,108,247,0.06); border-right:3px solid #4a6cf7; padding:6px 14px; border-radius:6px; margin:4px 0; font-size:17px; }
+        #slide-body .box-green { background:rgba(0,255,136,0.06); border-right:3px solid #00ff88; padding:6px 14px; border-radius:6px; margin:4px 0; font-size:17px; }
+        #slide-body .box-formula { background:rgba(255,215,0,0.08); border:2px solid rgba(255,215,0,0.2); border-radius:10px; padding:8px 12px; margin:4px 0; text-align:center; font-size:18px; font-weight:700; color:#ffd700; }
+        #slide-body .num { font-family:'Courier New',monospace; font-weight:700; direction:ltr; display:inline-block; }
+        #slide-body .example-box { background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.12); border-radius:8px; padding:6px 14px; margin:4px 0; font-size:17px; }
+        #three-container { border-radius:14px; overflow:hidden; background:rgba(10,10,26,0.5); border:1px solid rgba(255,255,255,0.03); position:relative; flex:1; min-height:200px; width:100%; }
+        #three-container canvas { width:100% !important; height:100% !important; display:block; }
+        #shape-hint { position:absolute; bottom:6px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.08); font-size:12px; background:rgba(0,0,0,0.4); padding:2px 12px; border-radius:10px; white-space:nowrap; pointer-events:none; z-index:5; }
+        #nav-buttons { position:absolute; bottom:12px; right:50%; transform:translateX(50%); z-index:40; display:flex; gap:10px; align-items:center; }
+        .nav-btn { padding:8px 22px; border-radius:10px; border:none; font-size:16px; font-weight:600; cursor:pointer; transition:all 0.3s; font-family:inherit; background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.06); }
+        .nav-btn:hover:not(:disabled) { background:rgba(255,215,0,0.08); border-color:rgba(255,215,0,0.2); color:#ffd700; }
+        .nav-btn:disabled { opacity:0.2; cursor:not-allowed; }
+        .nav-btn.primary { background:linear-gradient(135deg,#ffd700,#f5a623); color:#0a0a1a; border:none; }
+        .nav-btn.primary:hover:not(:disabled) { box-shadow:0 4px 20px rgba(255,215,0,0.15); }
+        .nav-btn .icon { margin:0 3px; }
+        #slide-counter { color:rgba(255,255,255,0.1); font-size:15px; min-width:45px; text-align:center; }
+
+        /* ===== صفحه آزمون ===== */
+        #exam-screen { display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:200; background:rgba(10,10,26,0.97); backdrop-filter:blur(20px); justify-content:center; align-items:center; }
+        #exam-screen.show { display:flex; }
+        #exam-box { background:rgba(255,255,255,0.03); border:1px solid rgba(255,215,0,0.12); border-radius:22px; padding:20px 22px; max-width:500px; width:94%; max-height:85vh; display:flex; flex-direction:column; box-shadow:0 20px 60px rgba(0,0,0,0.8); position:relative; }
+        #exam-box h2 { color:#ffd700; font-size:22px; margin-bottom:2px; text-align:center; }
+        #exam-box .exam-sub { color:rgba(255,255,255,0.25); text-align:center; font-size:15px; margin-bottom:6px; }
+        #exam-timer { text-align:center; font-size:18px; font-weight:700; color:#ffd700; margin-bottom:8px; background:rgba(255,215,0,0.06); padding:4px; border-radius:8px; border:1px solid rgba(255,215,0,0.08); }
+        #exam-timer.warning { color:#ff6b6b; border-color:rgba(255,107,107,0.2); animation:blink 1s infinite; }
+        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+        #exam-question-area { flex:1; overflow-y:auto; padding:0 2px; }
+        #exam-question-area::-webkit-scrollbar { width:4px; }
+        #exam-question-area::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.15); border-radius:3px; }
+        .exam-question { padding:16px 14px; background:rgba(255,255,255,0.03); border-radius:14px; border:1px solid rgba(255,255,255,0.08); margin-bottom:10px; }
+        .exam-question .q-text { font-size:19px; font-weight:600; color:rgba(255,255,255,0.95); margin-bottom:12px; }
+        .exam-question .q-text .q-num { color:#ffd700; margin-left:5px; }
+        .options { display:grid; grid-template-columns:1fr; gap:10px; margin-top:10px; }
+        .option-label { display:flex; align-items:center; gap:10px; padding:14px 16px; background:rgba(255,255,255,0.03); border-radius:12px; border:2px solid rgba(255,255,255,0.08); cursor:pointer; transition:all 0.3s; font-size:18px; color:rgba(255,255,255,0.8); }
+        .option-label:hover { background:rgba(255,255,255,0.05); border-color:rgba(255,215,0,0.15); }
+        .option-label input[type="radio"] { appearance:none; width:16px; height:16px; border:2px solid rgba(255,255,255,0.15); border-radius:50%; flex-shrink:0; transition:all 0.3s; cursor:pointer; position:relative; }
+        .option-label input[type="radio"]:checked { border-color:#ffd700; background:#ffd700; }
+        .option-label input[type="radio"]:checked::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:4px; height:4px; background:#0a0a1a; border-radius:50%; }
+        .option-label.selected { border-color:#ffd700; background:rgba(255,215,0,0.05); color:white; }
+        .option-label.correct { border-color:#00ff88; background:rgba(0,255,136,0.06); color:#00ff88; }
+        .option-label.wrong { border-color:#ff6b6b; background:rgba(255,107,107,0.06); color:#ff6b6b; }
+        .option-label.disabled { cursor:default; opacity:0.6; }
+        .option-label .letter { color:rgba(255,255,255,0.15); font-weight:700; min-width:16px; font-size:15px; }
+        #exam-nav { display:flex; justify-content:center; margin-top:8px; flex-shrink:0; gap:10px; }
+        #exam-nav .nav-btn { flex:1; padding:10px 12px; font-size:16px; max-width:200px; }
+        #exam-nav .nav-btn.primary { background:linear-gradient(135deg,#ffd700,#f5a623); color:#0a0a1a; border:none; font-weight:700; }
+        #exam-nav .nav-btn.primary:hover:not(:disabled) { box-shadow:0 4px 20px rgba(255,215,0,0.15); }
+        #exam-nav .nav-btn.primary:disabled { opacity:0.4; cursor:not-allowed; }
+        #confirm-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:300; background:rgba(0,0,0,0.75); backdrop-filter:blur(8px); justify-content:center; align-items:center; }
+        #confirm-modal.show { display:flex; }
+        #confirm-modal .modal-box { background:rgba(20,20,40,0.95); border:1px solid rgba(255,215,0,0.15); border-radius:22px; padding:24px 28px; max-width:400px; width:90%; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.9); }
+        #confirm-modal .modal-box .icon { font-size:48px; display:block; margin-bottom:8px; }
+        #confirm-modal .modal-box .title { font-size:22px; font-weight:700; margin-bottom:4px; }
+        #confirm-modal .modal-box .title.correct { color:#00ff88; }
+        #confirm-modal .modal-box .title.wrong { color:#ff6b6b; }
+        #confirm-modal .modal-box .desc { color:rgba(255,255,255,0.5); font-size:16px; margin-bottom:16px; line-height:1.6; }
+        #confirm-modal .modal-box .btn-row { display:flex; gap:10px; justify-content:center; }
+        #confirm-modal .modal-box .btn-row button { padding:8px 28px; border-radius:10px; border:none; font-size:16px; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.3s; }
+        #confirm-modal .modal-box .btn-row .btn-primary { background:linear-gradient(135deg,#ffd700,#f5a623); color:#0a0a1a; }
+        #confirm-modal .modal-box .btn-row .btn-primary:hover { transform:scale(1.02); }
+        #exam-result { text-align:center; margin-top:10px; padding:10px; border-radius:10px; display:none; flex-direction:column; align-items:center; gap:6px; }
+        #exam-result.show { display:flex; }
+        #exam-result .score { font-size:28px; font-weight:700; color:#ffd700; }
+        #exam-result .msg { font-size:18px; }
+        #exam-result .next-btn { padding:10px 30px; border-radius:12px; border:none; background:linear-gradient(135deg,#00ff88,#00cc77); color:#0a0a1a; font-size:18px; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.3s; margin-top:4px; }
+        #exam-result .next-btn:hover { transform:scale(1.03); box-shadow:0 4px 25px rgba(0,255,136,0.2); }
+        #close-exam-btn { position:absolute; top:10px; left:10px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); color:rgba(255,255,255,0.3); padding:4px 14px; border-radius:8px; cursor:pointer; font-family:inherit; font-size:14px; transition:all 0.3s; z-index:210; }
+        #close-exam-btn:hover { background:rgba(255,255,255,0.08); color:white; }
+        .fade-in { animation:fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+        ::-webkit-scrollbar { width:3px; height:3px; }
+        ::-webkit-scrollbar-track { background:rgba(255,255,255,0.01); }
+        ::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.12); border-radius:3px; }
+        ::-webkit-scrollbar-thumb:hover { background:rgba(255,215,0,0.2); }
+
+        @media (max-width:400px) {
+            #slide-content { padding:10px 12px; height:84vh; top:52%; }
+            #slide-title { font-size:19px; }
+            #slide-body { font-size:16px; line-height:2; }
+            #three-container { min-height:160px; }
+            #header { padding:4px 14px 3px 14px; min-width:130px; top:6px; }
+            #header .main-title { font-size:15px; }
+            #header .sub-title { font-size:10px; }
+            #nav-buttons { bottom:8px; gap:6px; }
+            .nav-btn { padding:5px 16px; font-size:13px; }
+            #slide-counter { font-size:13px; min-width:35px; }
+            #shape-hint { font-size:10px; padding:1px 8px; bottom:4px; }
+            #exam-box { padding:12px 14px; }
+            #exam-box h2 { font-size:20px; }
+            .exam-question .q-text { font-size:15px; }
+            .option-label { font-size:19px; padding:16px 18px; border-radius:12px; margin-bottom:8px; }
+            #exam-nav .nav-btn { font-size:14px; padding:8px 10px; }
+            #confirm-modal .modal-box { padding:18px 16px; }
+            #confirm-modal .modal-box .icon { font-size:36px; }
+            #confirm-modal .modal-box .title { font-size:18px; }
+            #exam-result .score { font-size:22px; }
+            #exam-result .next-btn { font-size:16px; padding:8px 22px; }
+            #exam-timer { font-size:16px; padding:3px 6px; }
+            #close-exam-btn { font-size:12px; padding:3px 10px; }
+        }
+        @media (min-width:600px) {
+            #slide-content { max-width:700px; max-height:620px; padding:20px 24px; }
+            #slide-title { font-size:26px; }
+            #slide-body { font-size:20px; }
+            #three-container { min-height:300px; }
+            #header .main-title { font-size:22px; }
+            #header .sub-title { font-size:14px; }
+            .nav-btn { padding:10px 28px; font-size:17px; }
+            #slide-counter { font-size:17px; }
+            #exam-box h2 { font-size:26px; }
+            .exam-question .q-text { font-size:19px; }
+            .option-label { font-size:18px; }
+            #exam-nav .nav-btn { font-size:17px; padding:10px 20px; }
+            #confirm-modal .modal-box { padding:28px 32px; }
+            #confirm-modal .modal-box .icon { font-size:56px; }
+            #confirm-modal .modal-box .title { font-size:26px; }
+            #exam-result .score { font-size:32px; }
+            #exam-result .next-btn { font-size:20px; padding:12px 36px; }
+            #exam-timer { font-size:20px; }
+        }
+    </style>
+</head>
+<body>
+<script>
+    const userId = localStorage.getItem('math9_userId');
+    if (!userId) { window.location.href = 'chapter8.html'; }
+</script>
+    <div id="header">
+        <div class="main-title">📐 فصل <span>۸</span> — مساحت و حجم</div>
+        <div class="sub-title">ریاضی نهم · بخش پنجم — اشکال ترکیبی</div>
+    </div>
+
+    <div id="slide-content" class="fade-in">
+        <div id="slide-text-area">
+            <div id="slide-title">
+                <span id="slide-title-text">🧩 اشکال ترکیبی</span>
+                <span class="slide-num" id="slide-num-text">۱ / ۴</span>
+            </div>
+            <div id="slide-body">
+                <p><span class="highlight">اشکال ترکیبی</span> از دو یا چند حجم هندسی ساخته می‌شوند.</p>
+                <p>برای محاسبه حجم کل، <span class="highlight-green">حجم همه بخش‌ها را با هم جمع</span> می‌کنیم.</p>
+                <div class="example-box"><strong>📝 مثال:</strong> استوانه + مخروط</div>
+                <div class="box-red"><span class="highlight-red">🔴 استوانه:</span> V = π × r² × h₁</div>
+                <div class="box-blue"><span class="highlight-blue">🔵 مخروط:</span> V = ۱/۳ × π × r² × h₂</div>
+                <div class="box-green"><span class="highlight-green">🟢 حجم کل = استوانه + مخروط</span></div>
+                <p style="font-size:14px; color:rgba(255,255,255,0.3); margin-top:2px;">🖱️ شکل را بچرخانید و اجزا را ببینید</p>
+            </div>
+        </div>
+        <div id="three-container">
+            <div id="shape-hint">🖱️ کلیک و بکشید</div>
+        </div>
+    </div>
+
+    <div id="nav-buttons">
+        <button class="nav-btn" id="prev-btn" disabled><span class="icon">›</span> قبلی</button>
+        <span id="slide-counter">۱ / ۴</span>
+        <button class="nav-btn primary" id="next-btn">بعدی <span class="icon">‹</span></button>
+    </div>
+
+    <!-- ===== صفحه آزمون ===== -->
+    <div id="exam-screen">
+        <button id="close-exam-btn">✕ بازگشت</button>
+        <div id="exam-box">
+            <h2>📝 آزمون بخش پنجم</h2>
+            <div class="exam-sub" id="exam-progress">سوال ۱ از ۵</div>
+            <div id="exam-timer">⏱️ ۱۲:۰۰</div>
+            <div id="exam-question-area"></div>
+            <div id="exam-nav">
+                <button class="nav-btn primary" id="exam-confirm-btn" disabled>✅ تایید</button>
+            </div>
+            <div id="exam-result">
+                <div class="score" id="exam-score">۰ از ۵</div>
+                <div class="msg" id="exam-msg"></div>
+                <button class="next-btn" id="finish-course-btn">🎉 پایان دوره</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== مودال تأیید پاسخ ===== -->
+    <div id="confirm-modal">
+        <div class="modal-box">
+            <span class="icon" id="modal-icon">✅</span>
+            <div class="title" id="modal-title">پاسخ درست!</div>
+            <div class="desc" id="modal-desc">توضیح پاسخ</div>
+            <div class="btn-row">
+                <button class="btn-primary" id="modal-next-btn">سوال بعدی</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcgI87HU8z5UcZdgqrjvMaNg66SW5HdNPq8tyXpmkxMNXpK_ulh85Lm5BHhKI56522oA/exec';
+
+        // ===== اسلایدها =====
+        const slides = [
+            {
+                id: 0,
+                title: '🧩 اشکال ترکیبی',
+                body: `<p><span class="highlight">اشکال ترکیبی</span> از دو یا چند حجم هندسی ساخته می‌شوند.</p>
+                    <p>برای محاسبه حجم کل، <span class="highlight-green">حجم همه بخش‌ها را با هم جمع</span> می‌کنیم.</p>
+                    <div class="example-box"><strong>📝 مثال:</strong> استوانه + مخروط</div>
+                    <div class="box-red"><span class="highlight-red">🔴 استوانه:</span> V = π × r² × h₁</div>
+                    <div class="box-blue"><span class="highlight-blue">🔵 مخروط:</span> V = ۱/۳ × π × r² × h₂</div>
+                    <div class="box-green"><span class="highlight-green">🟢 حجم کل = استوانه + مخروط</span></div>
+                    <p style="font-size:14px; color:rgba(255,255,255,0.3); margin-top:2px;">🖱️ شکل را بچرخانید و اجزا را ببینید</p>`,
+                shapeType: 'combined'
+            },
+            {
+                id: 1,
+                title: '📐 استوانه + مخروط (مثال عددی)',
+                body: `<p>یک استوانه به شعاع <span class="highlight">2</span> و ارتفاع <span class="highlight">5</span> داریم.</p>
+                    <p>یک مخروط با همان شعاع و ارتفاع <span class="highlight-blue">3</span> روی آن قرار دارد.</p>
+                    <div class="box-red"><span class="highlight-red">🔴 حجم استوانه:</span><br>V = ۳ × ۲² × ۵ = <span class="highlight">۶۰</span></div>
+                    <div class="box-blue"><span class="highlight-blue">🔵 حجم مخروط:</span><br>V = ۱/۳ × ۳ × ۲² × ۳ = <span class="highlight-blue">۱۲</span></div>
+                    <div class="box-green"><span class="highlight-green">🟢 حجم کل = ۶۰ + ۱۲ = <span style="font-size:24px;">۷۲</span></span></div>
+                    <p style="font-size:14px; color:rgba(255,255,255,0.3); margin-top:2px;">🖱️ شکل را بچرخانید</p>`,
+                shapeType: 'cylinder_cone'
+            },
+            {
+                id: 2,
+                title: '🔲 مکعب - کره (تراشیدن)',
+                body: `<p>یک مکعب به ضلع <span class="highlight">4</span> داریم.</p>
+                    <p>یک کره به شعاع <span class="highlight-red">2</span> از داخل آن تراشیده شده است.</p>
+                    <div class="box-red"><span class="highlight-red">🔴 حجم مکعب:</span><br>V = ۴³ = <span class="highlight">۶۴</span></div>
+                    <div class="box-blue"><span class="highlight-blue">🔵 حجم کره:</span><br>V = ۴/۳ × ۳ × ۲³ = <span class="highlight-blue">۳۲</span></div>
+                    <div class="box-green"><span class="highlight-green">🟢 حجم باقیمانده = ۶۴ - ۳۲ = <span style="font-size:24px;">۳۲</span></span></div>
+                    <p style="font-size:14px; color:rgba(255,255,255,0.3); margin-top:2px;">🖱️ شکل را بچرخانید</p>`,
+                shapeType: 'cube_sphere'
+            },
+            {
+                id: 3,
+                title: '📊 جمع‌بندی فصل ۸',
+                body: `<p><span class="highlight">تبریک! 🎉</span> شما به پایان فصل ۸ رسیدید.</p>
+                    <p>در این فصل با <span class="highlight">انواع حجم‌ها</span> و <span class="highlight-blue">مساحت‌ها</span> آشنا شدید.</p>
+                    <div class="box"><span class="highlight">📌 منشور:</span> V = S × h</div>
+                    <div class="box-blue"><span class="highlight-blue">📌 استوانه:</span> V = πr²h</div>
+                    <div class="box-red"><span class="highlight-red">📌 کره:</span> V = ۴/۳πr³</div>
+                    <div class="box-green"><span class="highlight-green">📌 مخروط:</span> V = ۱/۳πr²h</div>
+                    <div class="box-formula" style="font-size:16px;">مساحت جانبی = محیط قاعده × ارتفاع<br>مساحت کل = مساحت جانبی + ۲ × مساحت قاعده</div>
+                    <p style="font-size:14px; color:rgba(255,255,255,0.3); margin-top:2px;">✅ برای آزمون نهایی، دکمه <span class="highlight">"آزمون"</span> را بزنید.</p>`,
+                shapeType: 'summary'
+            }
+        ];
+
+        // ===== سوالات آزمون =====
+        const examQuestions = [
+            { id: 0, text: 'یک استوانه به شعاع 2 و ارتفاع 5 داریم. یک مخروط با همان شعاع و ارتفاع 3 روی آن قرار دارد. حجم کل چند است؟ (پی=3)', options: ['۶۰', '۷۲', '۹۰', '۱۲۰'], correct: 1, explanation: 'حجم استوانه = ۶۰. حجم مخروط = ۱۲. مجموع = ۷۲.' },
+            { id: 1, text: 'یک مکعب به ضلع 4 داریم که یک کره به شعاع 2 از داخل آن تراشیده شده است. حجم باقیمانده چند است؟ (پی=3)', options: ['۳۲', '۴۰', '۴۸', '۵۶'], correct: 0, explanation: 'حجم مکعب = ۶۴. حجم کره = ۳۲. باقیمانده = ۳۲.' },
+            { id: 2, text: 'یک استوانه به شعاع 3 و ارتفاع 6 داریم. یک مخروط با همان شعاع و ارتفاع 6 از داخل آن تراشیده شده است. حجم باقیمانده چند است؟ (پی=3)', options: ['۵۴', '۷۲', '۹۰', '۱۰۸'], correct: 2, explanation: 'حجم استوانه = ۱۶۲. حجم مخروط = ۵۴. باقیمانده = ۱۰۸.' },
+            { id: 3, text: 'یک نیم‌کره به شعاع 4 روی یک مکعب به ضلع 8 قرار دارد. حجم کل چند است؟ (پی=3)', options: ['۵۱۲', '۶۴۰', '۷۶۸', '۸۹۶'], correct: 1, explanation: 'حجم مکعب = ۵۱۲. حجم نیم‌کره = ۱۲۸. مجموع = ۶۴۰.' },
+            { id: 4, text: 'یک مخروط ناقص با شعاع‌های 2 و 4 و ارتفاع 6 داریم. حجم آن چند است؟ (پی=3)', options: ['۱۲۰', '۱۶۸', '۲۱۶', '۲۶۴'], correct: 1, explanation: 'حجم مخروط ناقص = ۱/۳ × ۳ × ۶ × (۱۶+۸+۴) = ۱۶۸.' }
+        ];
+
+        // ===== متغیرها =====
+        let currentSlide = 0;
+        let currentExamIndex = 0;
+        let examSubmitted = false;
+        let examLocked = false;
+        let userAnswers = {};
+        let timerInterval = null;
+        let timeLeft = 720;
+
+        // ===== THREE.JS =====
+        let scene, camera, renderer, controls;
+        let currentGroup = null;
+        let animationId = null;
+
+        function initThree() {
+            const container = document.getElementById('three-container');
+            const rect = container.getBoundingClientRect();
+            const width = rect.width || 400;
+            const height = rect.height || 300;
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0a0a1a);
+            camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 100);
+            camera.position.set(5, 4, 7);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(width, height);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            container.appendChild(renderer.domElement);
+            controls = new OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.08;
+            controls.target.set(0, 0, 0);
+            controls.update();
+
+            const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambient);
+            const mainLight = new THREE.DirectionalLight(0xffeedd, 1.0);
+            mainLight.position.set(5, 8, 6);
+            mainLight.castShadow = true;
+            scene.add(mainLight);
+            const fillLight = new THREE.DirectionalLight(0x4488ff, 0.3);
+            fillLight.position.set(-4, 2, 5);
+            scene.add(fillLight);
+            const backLight = new THREE.DirectionalLight(0x88aaff, 0.2);
+            backLight.position.set(-2, 0, -6);
+            scene.add(backLight);
+
+            animate();
+            const resizeObserver = new ResizeObserver(() => {
+                const r = container.getBoundingClientRect();
+                if (r.width > 0 && r.height > 0) {
+                    renderer.setSize(r.width, r.height);
+                    camera.aspect = r.width / r.height;
+                    camera.updateProjectionMatrix();
+                }
+            });
+            resizeObserver.observe(container);
+        }
+
+        function animate() {
+            animationId = requestAnimationFrame(animate);
+            if (controls) controls.update();
+            if (renderer && scene && camera) renderer.render(scene, camera);
+        }
+
+        // ===== توابع ساخت اشکال =====
+        function createCylinder(radius, height, color) {
+            const group = new THREE.Group();
+            const geo = new THREE.CylinderGeometry(radius, radius, height, 32);
+            const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.3, metalness: 0.05, transparent: true, opacity: 0.85 });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.castShadow = true;
+            group.add(mesh);
+            const edges = new THREE.EdgesGeometry(geo);
+            const edgeMat = new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.3 });
+            group.add(new THREE.LineSegments(edges, edgeMat));
+            return group;
+        }
+
+        function createCone(radius, height, color) {
+            const group = new THREE.Group();
+            const geo = new THREE.ConeGeometry(radius, height, 32);
+            const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.3, metalness: 0.05, transparent: true, opacity: 0.85 });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.castShadow = true;
+            group.add(mesh);
+            const edges = new THREE.EdgesGeometry(geo);
+            const edgeMat = new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.3 });
+            group.add(new THREE.LineSegments(edges, edgeMat));
+            return group;
+        }
+
+        function createCombinedShape() {
+            const group = new THREE.Group();
+            const cyl = createCylinder(1.3, 1.8, 0x4a6cf7);
+            cyl.position.y = -0.9;
+            group.add(cyl);
+            const cone = createCone(1.3, 1.2, 0xe84393);
+            cone.position.y = 0.6 + 0.6;
+            group.add(cone);
+            return group;
+        }
+
+        function createCylinderConeExample() {
+            const group = new THREE.Group();
+            const cyl = createCylinder(1.6, 2.0, 0x4a6cf7);
+            cyl.position.y = -1.0;
+            group.add(cyl);
+            const cone = createCone(1.6, 1.2, 0xe84393);
+            cone.position.y = 1.0 + 0.6;
+            group.add(cone);
+            return group;
+        }
+
+        function createCubeSphereExample() {
+            const group = new THREE.Group();
+            const cubeGeo = new THREE.BoxGeometry(2.8, 2.8, 2.8);
+            const cubeMat = new THREE.MeshStandardMaterial({ color: 0x4a6cf7, roughness: 0.3, metalness: 0.05, transparent: true, opacity: 0.6 });
+            const cube = new THREE.Mesh(cubeGeo, cubeMat);
+            cube.castShadow = true;
+            group.add(cube);
+            const cubeEdges = new THREE.EdgesGeometry(cubeGeo);
+            group.add(new THREE.LineSegments(cubeEdges, new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.5 })));
+
+            const sphereGeo = new THREE.SphereGeometry(1.2, 32, 32);
+            const sphereMat = new THREE.MeshStandardMaterial({ color: 0xe84393, roughness: 0.2, metalness: 0.1, transparent: true, opacity: 0.7 });
+            const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+            sphere.castShadow = true;
+            group.add(sphere);
+            const sphereEdges = new THREE.EdgesGeometry(sphereGeo);
+            group.add(new THREE.LineSegments(sphereEdges, new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.2 })));
+
+            return group;
+        }
+
+        function createSummaryShapes() {
+            const group = new THREE.Group();
+            const prism = createCylinder(0.7, 1.0, 0xffd700);
+            prism.position.set(-2.2, 0, 0);
+            group.add(prism);
+            const sphere = createCylinder(0.7, 1.0, 0xe84393);
+            sphere.position.set(0, 0, 0);
+            group.add(sphere);
+            const cone = createCylinder(0.7, 1.0, 0x4a6cf7);
+            cone.position.set(2.2, 0, 0);
+            group.add(cone);
+            return group;
+        }
+
+        function showShape(type) {
+            if (currentGroup) { scene.remove(currentGroup); currentGroup = null; }
+            let group = null;
+            switch (type) {
+                case 'combined': group = createCombinedShape(); break;
+                case 'cylinder_cone': group = createCylinderConeExample(); break;
+                case 'cube_sphere': group = createCubeSphereExample(); break;
+                case 'summary': group = createSummaryShapes(); break;
+                default: group = createCombinedShape();
+            }
+            if (group) {
+                group.scale.set(0.85, 0.85, 0.85);
+                group.position.y = 0;
+                group.rotation.x = 0.15;
+                group.rotation.y = 0.4;
+                scene.add(group);
+                currentGroup = group;
+            }
+        }
+
+        // ===== توابع اسلایدها =====
+        function renderSlide(index) {
+            const slide = slides[index];
+            document.getElementById('slide-title-text').textContent = slide.title;
+            document.getElementById('slide-num-text').textContent = `${index + 1} / ${slides.length}`;
+            document.getElementById('slide-body').innerHTML = slide.body;
+            document.getElementById('prev-btn').disabled = index === 0;
+            document.getElementById('slide-counter').textContent = `${index + 1} / ${slides.length}`;
+            const nextBtn = document.getElementById('next-btn');
+            if (index === slides.length - 1) {
+                nextBtn.textContent = localStorage.getItem('exam_section8_5_done') === 'true' ? '🎉 پایان دوره' : '📝 شروع آزمون';
+            } else {
+                nextBtn.textContent = 'بعدی ←';
+            }
+            showShape(slide.shapeType);
+            const content = document.getElementById('slide-content');
+            content.classList.remove('fade-in');
+            void content.offsetWidth;
+            content.classList.add('fade-in');
+        }
+
+        // ===== توابع آزمون (کاملاً مشابه بخش‌های قبلی) =====
+        function renderExamQuestion(index) {
+            const area = document.getElementById('exam-question-area');
+            const q = examQuestions[index];
+            const letters = ['الف', 'ب', 'ج', 'د'];
+            const div = document.createElement('div');
+            div.className = 'exam-question';
+            div.dataset.qid = q.id;
+            const qText = document.createElement('div');
+            qText.className = 'q-text';
+            qText.innerHTML = `<span class="q-num">${index + 1}.</span> ${q.text}`;
+            div.appendChild(qText);
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            q.options.forEach((opt, oi) => {
+                const label = document.createElement('label');
+                label.className = 'option-label';
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = `exam_q${q.id}`;
+                radio.value = oi;
+                radio.dataset.qid = q.id;
+                if (userAnswers[q.id] !== undefined && userAnswers[q.id] === oi) {
+                    radio.checked = true;
+                    label.classList.add('selected');
+                }
+                if (examSubmitted) {
+                    radio.disabled = true;
+                    label.classList.add('disabled');
+                    if (oi === q.correct) label.classList.add('correct');
+                    else if (userAnswers[q.id] === oi && userAnswers[q.id] !== q.correct) label.classList.add('wrong');
+                }
+                const letterSpan = document.createElement('span');
+                letterSpan.className = 'letter';
+                letterSpan.textContent = `${letters[oi]})`;
+                const textSpan = document.createElement('span');
+                textSpan.textContent = opt;
+                label.appendChild(radio);
+                label.appendChild(letterSpan);
+                label.appendChild(textSpan);
+                if (!examSubmitted && !examLocked) {
+                    label.addEventListener('click', () => {
+                        if (examSubmitted || examLocked) return;
+                        const parent = label.closest('.exam-question');
+                        parent.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
+                        label.classList.add('selected');
+                        radio.checked = true;
+                        userAnswers[q.id] = oi;
+                        document.getElementById('exam-confirm-btn').disabled = false;
+                    });
+                }
+                optionsDiv.appendChild(label);
+            });
+            div.appendChild(optionsDiv);
+            area.innerHTML = '';
+            area.appendChild(div);
+            document.getElementById('exam-progress').textContent = `سوال ${index + 1} از ${examQuestions.length}`;
+            if (userAnswers[q.id] !== undefined && !examSubmitted) {
+                document.getElementById('exam-confirm-btn').disabled = false;
+            } else {
+                document.getElementById('exam-confirm-btn').disabled = true;
+            }
+            if (examSubmitted) document.getElementById('exam-confirm-btn').disabled = true;
+        }
+
+        function showExamResult() {
+            const resultDiv = document.getElementById('exam-result');
+            const scoreSpan = document.getElementById('exam-score');
+            const msgSpan = document.getElementById('exam-msg');
+            let correctCount = 0;
+            examQuestions.forEach(q => { if (userAnswers[q.id] === q.correct) correctCount++; });
+            scoreSpan.textContent = `${correctCount} از ${examQuestions.length}`;
+            msgSpan.textContent = correctCount === examQuestions.length ? '🎉 عالی! همه پاسخ‌ها درست بود!' : `✅ شما ${correctCount} پاسخ درست دادید.`;
+            msgSpan.style.color = correctCount >= 3 ? '#00ff88' : '#ffd700';
+            resultDiv.classList.add('show');
+            document.getElementById('exam-confirm-btn').disabled = true;
+            document.querySelectorAll('.option-label input[type="radio"]').forEach(r => r.disabled = true);
+            document.querySelectorAll('.option-label').forEach(l => l.classList.add('disabled'));
+        }
+
+        function showModal(icon, title, desc, btnText, isLastQuestion, callback) {
+            const modal = document.getElementById('confirm-modal');
+            document.getElementById('modal-icon').textContent = icon;
+            const titleEl = document.getElementById('modal-title');
+            titleEl.textContent = title;
+            titleEl.className = 'title ' + (icon === '✅' ? 'correct' : 'wrong');
+            document.getElementById('modal-desc').textContent = desc;
+            const btn = document.getElementById('modal-next-btn');
+            btn.textContent = isLastQuestion ? 'پایان آزمون' : 'سوال بعدی';
+            btn.onclick = () => {
+                modal.classList.remove('show');
+                if (callback) callback();
+            };
+            modal.classList.add('show');
+        }
+
+        function confirmAnswer() {
+            if (examSubmitted || examLocked) return;
+            const currentQ = examQuestions[currentExamIndex];
+            const selected = userAnswers[currentQ.id];
+            if (selected === undefined) {
+                showModal('⚠️', 'لطفاً یک گزینه انتخاب کنید!', 'برای تایید پاسخ، ابتدا یکی از گزینه‌ها را انتخاب کنید.', 'باشه', false, () => {});
+                return;
+            }
+            const isCorrect = selected === currentQ.correct;
+            const icon = isCorrect ? '✅' : '❌';
+            const title = isCorrect ? 'پاسخ درست! 🎉' : 'پاسخ نادرست! 😞';
+            const desc = currentQ.explanation;
+            const isLast = currentExamIndex === examQuestions.length - 1;
+            document.getElementById('exam-confirm-btn').disabled = true;
+            showModal(icon, title, desc, isLast ? 'پایان آزمون' : 'سوال بعدی', isLast, () => {
+                if (isLast) { finishExam(); } else { currentExamIndex++; renderExamQuestion(currentExamIndex); document.getElementById('exam-confirm-btn').disabled = true; }
+            });
+        }
+
+        async function finishExam() {
+            if (examSubmitted || examLocked) return;
+            examLocked = true;
+            examSubmitted = true;
+            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+            let correctCount = 0;
+            examQuestions.forEach(q => { if (userAnswers[q.id] === q.correct) correctCount++; });
+            const userId = localStorage.getItem('math9_userId');
+            const name = localStorage.getItem('math9_name') || 'نامشخص';
+            const cls = localStorage.getItem('math9_class') || 'نامشخص';
+            if (userId) {
+                try {
+                    const payload = { action: 'saveResult', userId, name, class: cls, chapter: 5, correct: correctCount, total: examQuestions.length, percent: Math.round((correctCount / examQuestions.length) * 100) };
+                    await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true });
+                } catch (error) { console.error('❌ خطا در ارسال درخواست:', error); }
+            }
+            localStorage.setItem('exam_section8_5_done', 'true');
+            document.getElementById('exam-question-area').innerHTML = '';
+            showExamResult();
+            document.getElementById('exam-confirm-btn').disabled = true;
+            document.getElementById('exam-timer').textContent = '⏱️ پایان';
+            document.getElementById('finish-course-btn').style.display = 'inline-block';
+            examLocked = false;
+        }
+
+        function startTimer() {
+            timeLeft = 720;
+            const timerEl = document.getElementById('exam-timer');
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerEl.textContent = `⏱️ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                if (timeLeft <= 60) timerEl.classList.add('warning');
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                    timerEl.textContent = '⏱️ زمان تمام شد!';
+                    if (!examSubmitted) {
+                        examSubmitted = true;
+                        examLocked = true;
+                        let correctCount = 0;
+                        examQuestions.forEach(q => { if (userAnswers[q.id] === q.correct) correctCount++; });
+                        const userId = localStorage.getItem('math9_userId');
+                        const name = localStorage.getItem('math9_name') || 'نامشخص';
+                        const cls = localStorage.getItem('math9_class') || 'نامشخص';
+                        if (userId) {
+                            const payload = { action: 'saveResult', userId, name, class: cls, chapter: 5, correct: correctCount, total: examQuestions.length, percent: Math.round((correctCount / examQuestions.length) * 100) };
+                            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
+                        }
+                        localStorage.setItem('exam_section8_5_done', 'true');
+                        showExamResult();
+                        document.getElementById('exam-confirm-btn').disabled = true;
+                        document.getElementById('finish-course-btn').style.display = 'inline-block';
+                        examLocked = false;
+                    }
+                }
+            }, 1000);
+        }
+
+        function startExam() {
+            try {
+                if (localStorage.getItem('exam_section8_5_done') === 'true') {
+                    if (confirm('✅ شما قبلاً در این آزمون شرکت کرده‌اید. آیا می‌خواهید به پایان دوره بروید؟')) {
+                        window.location.href = 'chapter8.html';
+                    }
+                    return;
+                }
+                const examScreen = document.getElementById('exam-screen');
+                examScreen.classList.add('show');
+                document.getElementById('slide-content').style.display = 'none';
+                document.getElementById('nav-buttons').style.display = 'none';
+                if (currentGroup) { scene.remove(currentGroup); currentGroup = null; }
+                currentExamIndex = 0;
+                userAnswers = {};
+                examSubmitted = false;
+                examLocked = false;
+                document.getElementById('exam-result').classList.remove('show');
+                document.getElementById('finish-course-btn').style.display = 'none';
+                document.getElementById('exam-timer').classList.remove('warning');
+                renderExamQuestion(0);
+                if (timerInterval) clearInterval(timerInterval);
+                startTimer();
+            } catch (error) { console.error('❌ خطا در startExam:', error); alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.'); }
+        }
+
+        // ===== رویدادها =====
+        document.getElementById('prev-btn').addEventListener('click', () => { if (currentSlide > 0) { currentSlide--; renderSlide(currentSlide); } });
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentSlide === slides.length - 1) {
+                if (localStorage.getItem('exam_section8_5_done') === 'true') {
+                    if (confirm('✅ شما قبلاً در این آزمون شرکت کرده‌اید. آیا می‌خواهید به پایان دوره بروید؟')) {
+                        window.location.href = 'chapter8.html';
+                    }
+                    return;
+                }
+                startExam();
+                return;
+            }
+            if (currentSlide < slides.length - 1) { currentSlide++; renderSlide(currentSlide); }
+        });
+        document.getElementById('close-exam-btn').addEventListener('click', () => {
+            if (examSubmitted) {
+                if (confirm('آزمون کامل شده است. آیا می‌خواهید به اسلایدها بازگردید؟')) {
+                    document.getElementById('exam-screen').classList.remove('show');
+                    document.getElementById('slide-content').style.display = 'flex';
+                    document.getElementById('nav-buttons').style.display = 'flex';
+                    if (timerInterval) clearInterval(timerInterval);
+                    renderSlide(currentSlide);
+                }
+            } else {
+                if (confirm('آیا از بازگشت به اسلایدها مطمئن هستید؟ پیشرفت آزمون از دست خواهد رفت.')) {
+                    document.getElementById('exam-screen').classList.remove('show');
+                    document.getElementById('slide-content').style.display = 'flex';
+                    document.getElementById('nav-buttons').style.display = 'flex';
+                    if (timerInterval) clearInterval(timerInterval);
+                    renderSlide(currentSlide);
+                }
+            }
+        });
+        document.getElementById('exam-confirm-btn').addEventListener('click', confirmAnswer);
+        document.getElementById('finish-course-btn').addEventListener('click', () => { window.location.href = 'chapter8.html'; });
+
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('exam-screen').classList.contains('show')) {
+                if (e.key === 'Escape') document.getElementById('close-exam-btn').click();
+                if (e.key === 'Enter' && !document.getElementById('exam-confirm-btn').disabled) {
+                    e.preventDefault();
+                    document.getElementById('exam-confirm-btn').click();
+                }
+                return;
+            }
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); document.getElementById('next-btn').click(); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); document.getElementById('prev-btn').click(); }
+        });
+
+        // ===== شروع =====
+        initThree();
+        renderSlide(0);
+        console.log('📐 فصل ۸ - بخش پنجم (اشکال ترکیبی)');
+    </script>
+</body>
+</html>
