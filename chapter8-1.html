@@ -6,65 +6,90 @@
 <title>فصل ۸ - بخش اول: مفاهیم پایه (مدل ۵E)</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Vazirmatn','Segoe UI',sans-serif; background:#0a0a1a; color:white; min-height:100vh; overflow-x:hidden; }
+body {
+  font-family:'Vazirmatn','Segoe UI',sans-serif; color:white; min-height:100vh; overflow-x:hidden;
+  background-color:#1c0d0f;
+  background-image:
+    linear-gradient(135deg, rgba(217,164,65,0.05) 25%, transparent 25%, transparent 75%, rgba(217,164,65,0.05) 75%),
+    linear-gradient(45deg, rgba(217,164,65,0.05) 25%, transparent 25%, transparent 75%, rgba(217,164,65,0.05) 75%),
+    radial-gradient(ellipse at top, rgba(226,112,58,0.10), transparent 60%);
+  background-size:28px 28px, 28px 28px, 100% 100%;
+  background-position:0 0, 14px 14px, 0 0;
+  background-attachment:fixed;
+}
+.kilim-border { height:8px; width:100%;
+  background-image:
+    linear-gradient(135deg, #b9502a 25%, transparent 25%) 0 0,
+    linear-gradient(225deg, #b9502a 25%, transparent 25%) 0 0,
+    linear-gradient(315deg, #b9502a 25%, transparent 25%) 0 0,
+    linear-gradient(45deg, #b9502a 25%, transparent 25%) 0 0;
+  background-size:10px 10px; background-color:#d9a441; opacity:0.75;
+}
+#site-footer { text-align:center; padding:16px 10px 28px; }
+#site-footer .fline { width:120px; height:2px; background:linear-gradient(90deg, transparent, #d9a441, transparent); margin:0 auto 10px; }
+#site-footer .fname { color:#d9a441; font-size:13px; font-weight:700; }
+#site-footer .fsub { color:rgba(255,255,255,0.28); font-size:11px; margin-top:3px; }
 ::-webkit-scrollbar { width:4px; height:4px; }
 ::-webkit-scrollbar-track { background:rgba(255,255,255,0.02); }
-::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.15); border-radius:3px; }
+::-webkit-scrollbar-thumb { background:rgba(217,164,65,0.15); border-radius:3px; }
 
 /* ===== هدر + نوار پیشرفت مراحل ۵E ===== */
-#header { position:sticky; top:0; z-index:100; background:rgba(10,10,26,0.92); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,215,0,0.12); padding:10px 12px 8px; }
+#header { position:sticky; top:0; z-index:100; background:rgba(28,13,15,0.94); backdrop-filter:blur(12px); padding:10px 12px 8px; }
 #header .top-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 #header .main-title { font-size:16px; font-weight:700; }
-#header .main-title span { color:#ffd700; }
+#header .main-title span { color:#d9a441; }
 #header .back-link { font-size:12px; color:rgba(255,255,255,0.35); text-decoration:none; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:4px 10px; cursor:pointer; background:none; font-family:inherit; }
-#header .back-link:hover { color:#ffd700; border-color:rgba(255,215,0,0.3); }
+#header .back-link:hover { color:#d9a441; border-color:rgba(217,164,65,0.3); }
 #stage-track { display:flex; justify-content:space-between; gap:4px; max-width:520px; margin:0 auto; }
 .stage-dot { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; font-size:10px; color:rgba(255,255,255,0.25); position:relative; }
 .stage-dot .circle { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; background:rgba(255,255,255,0.04); border:2px solid rgba(255,255,255,0.08); transition:all .3s; }
-.stage-dot.active .circle { border-color:#ffd700; background:rgba(255,215,0,0.12); color:#ffd700; box-shadow:0 0 12px rgba(255,215,0,0.25); }
+.stage-dot.active .circle { border-color:#d9a441; background:rgba(217,164,65,0.12); color:#d9a441; box-shadow:0 0 12px rgba(217,164,65,0.25); }
 .stage-dot.done .circle { border-color:#00ff88; background:rgba(0,255,136,0.08); color:#00ff88; }
-.stage-dot.active { color:#ffd700; }
+.stage-dot.active { color:#d9a441; }
 .stage-dot.done { color:#00ff88; }
 .stage-dot .line { position:absolute; top:13px; right:100%; width:100%; height:2px; background:rgba(255,255,255,0.08); z-index:-1; }
-.stage-dot.done .line, .stage-dot.active .line { background:rgba(255,215,0,0.25); }
+.stage-dot.done .line, .stage-dot.active .line { background:rgba(217,164,65,0.25); }
 .stage-dot:first-child .line { display:none; }
 
 /* ===== کارت اصلی مرحله ===== */
 #stage-wrap { max-width:560px; margin:14px auto; padding:0 12px 90px; }
-.panel { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:18px 16px; box-shadow:0 15px 45px rgba(0,0,0,0.5); animation:fadeIn .35s ease; }
+.panel { position:relative; background:rgba(70,28,26,0.35); border:1px solid rgba(217,164,65,0.18); border-radius:16px; padding:18px 16px; box-shadow:0 15px 45px rgba(0,0,0,0.5); animation:fadeIn .35s ease; }
+.panel::before, .panel::after { content:''; position:absolute; top:-6px; width:11px; height:11px; background:#d9a441; transform:rotate(45deg); border-radius:2px; box-shadow:0 0 0 1px rgba(28,13,15,0.6); }
+.panel::before { right:14px; }
+.panel::after { left:14px; }
 @keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 .stage-badge { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px; margin-bottom:10px; }
 .stage-badge.engage { background:rgba(255,107,107,0.12); color:#ff8080; }
-.stage-badge.explore { background:rgba(74,108,247,0.15); color:#7d9bff; }
-.stage-badge.explain { background:rgba(255,215,0,0.12); color:#ffd700; }
+.stage-badge.explore { background:rgba(46,196,182,0.15); color:#4dd9c9; }
+.stage-badge.explain { background:rgba(217,164,65,0.12); color:#d9a441; }
 .stage-badge.elaborate { background:rgba(0,255,136,0.1); color:#3dffab; }
 .stage-badge.evaluate { background:rgba(232,67,147,0.12); color:#ff7fbf; }
 .panel h2 { font-size:19px; color:#fff; margin-bottom:8px; line-height:1.5; }
 .panel p { font-size:15.5px; line-height:2; color:rgba(255,255,255,0.85); margin-bottom:8px; }
-.hint { font-size:13px; color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.03); border-radius:10px; padding:8px 12px; margin:8px 0; border-right:3px solid rgba(255,215,0,0.3); }
-.highlight { color:#ffd700; font-weight:700; }
+.hint { font-size:13px; color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.03); border-radius:10px; padding:8px 12px; margin:8px 0; border-right:3px solid rgba(217,164,65,0.3); }
+.highlight { color:#d9a441; font-weight:700; }
 .highlight-red { color:#ff6b6b; font-weight:700; }
-.highlight-blue { color:#7d9bff; font-weight:700; }
-.box { background:rgba(255,215,0,0.06); border-right:3px solid #ffd700; padding:8px 14px; border-radius:8px; margin:8px 0; font-size:15px; }
+.highlight-blue { color:#4dd9c9; font-weight:700; }
+.box { background:rgba(217,164,65,0.06); border-right:3px solid #d9a441; padding:8px 14px; border-radius:8px; margin:8px 0; font-size:15px; }
 .box-green { background:rgba(0,255,136,0.06); border-right:3px solid #00ff88; padding:8px 14px; border-radius:8px; margin:8px 0; font-size:15px; }
 table.discovery { width:100%; border-collapse:collapse; margin:10px 0; font-size:14px; }
-table.discovery th { background:rgba(255,215,0,0.08); color:#ffd700; padding:6px; border:1px solid rgba(255,255,255,0.06); }
+table.discovery th { background:rgba(217,164,65,0.08); color:#d9a441; padding:6px; border:1px solid rgba(255,255,255,0.06); }
 table.discovery td { padding:6px; border:1px solid rgba(255,255,255,0.06); text-align:center; color:rgba(255,255,255,0.85); }
 table.discovery tr.filled td { color:#00ff88; }
 
 /* ===== ویوی سه‌بعدی ===== */
-#three-container { border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); position:relative; height:220px; width:100%; margin:10px 0; }
-#three-container canvas { width:100% !important; height:100% !important; display:block; }
+.three-view { border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); position:relative; height:220px; width:100%; margin:10px 0; }
+.three-view canvas { width:100% !important; height:100% !important; display:block; }
 #shape-hint { position:absolute; bottom:6px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.25); font-size:11px; background:rgba(0,0,0,0.4); padding:2px 10px; border-radius:10px; pointer-events:none; }
 #three-fallback { display:none; text-align:center; padding:30px 10px; color:rgba(255,255,255,0.4); font-size:14px; }
 
 /* ===== دکمه‌ها ===== */
 .btn { padding:12px 18px; border-radius:12px; border:none; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; transition:all .25s; width:100%; margin-top:6px; }
-.btn-primary { background:linear-gradient(135deg,#ffd700,#f5a623); color:#0a0a1a; }
+.btn-primary { background:linear-gradient(135deg,#d9a441,#b97a2a); color:#1c0d0f; }
 .btn-primary:disabled { opacity:.35; cursor:not-allowed; }
-.btn-primary:hover:not(:disabled) { transform:scale(1.015); box-shadow:0 4px 20px rgba(255,215,0,0.2); }
+.btn-primary:hover:not(:disabled) { transform:scale(1.015); box-shadow:0 4px 20px rgba(217,164,65,0.2); }
 .btn-outline { background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.1); }
-.btn-outline:hover { border-color:rgba(255,215,0,0.3); color:#ffd700; }
+.btn-outline:hover { border-color:rgba(217,164,65,0.3); color:#d9a441; }
 .btn-row { display:flex; gap:8px; }
 .btn-row .btn { margin-top:6px; }
 
@@ -82,8 +107,8 @@ table.discovery tr.filled td { color:#00ff88; }
 
 /* ===== کاوش (Explore) ===== */
 .slider-row { display:flex; align-items:center; gap:10px; margin:10px 0; }
-.slider-row input[type=range] { flex:1; accent-color:#ffd700; }
-.slider-row .n-val { font-size:20px; font-weight:700; color:#ffd700; min-width:34px; text-align:center; }
+.slider-row input[type=range] { flex:1; accent-color:#d9a441; }
+.slider-row .n-val { font-size:20px; font-weight:700; color:#d9a441; min-width:34px; text-align:center; }
 .predict-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:10px 0; }
 .predict-grid label { font-size:12px; color:rgba(255,255,255,0.5); display:block; margin-bottom:3px; }
 .predict-grid input { width:100%; padding:9px 6px; text-align:center; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05); color:white; font-size:16px; font-family:inherit; }
@@ -91,17 +116,17 @@ table.discovery tr.filled td { color:#00ff88; }
 .predict-grid input.bad { border-color:#ff6b6b; background:rgba(255,107,107,0.08); }
 
 /* ===== توضیح (Explain) فرمول‌های تیک‌مارک ===== */
-.formula-box { text-align:center; font-size:18px; font-weight:700; color:#ffd700; padding:8px; background:rgba(255,215,0,0.07); border-radius:10px; margin:6px 0; direction:ltr; }
+.formula-box { text-align:center; font-size:18px; font-weight:700; color:#d9a441; padding:8px; background:rgba(217,164,65,0.07); border-radius:10px; margin:6px 0; direction:ltr; }
 .check-q { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 12px; margin-top:10px; }
 .bloom-tag { font-size:10px; padding:2px 8px; border-radius:8px; margin-inline-start:6px; font-weight:700; vertical-align:middle; }
-.bloom-remember { background:rgba(125,155,255,0.15); color:#9fb6ff; }
-.bloom-understand { background:rgba(255,215,0,0.15); color:#ffd700; }
+.bloom-remember { background:rgba(46,196,182,0.15); color:#4dd9c9; }
+.bloom-understand { background:rgba(217,164,65,0.15); color:#d9a441; }
 .bloom-apply { background:rgba(0,255,136,0.15); color:#5dffb8; }
 .bloom-analyze { background:rgba(255,107,107,0.15); color:#ff9d9d; }
 .opt-list { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
 .opt-item { padding:10px 12px; border-radius:10px; border:2px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); cursor:pointer; font-size:14.5px; transition:all .2s; }
-.opt-item:hover { border-color:rgba(255,215,0,0.2); }
-.opt-item.selected { border-color:#ffd700; background:rgba(255,215,0,0.06); }
+.opt-item:hover { border-color:rgba(217,164,65,0.2); }
+.opt-item.selected { border-color:#d9a441; background:rgba(217,164,65,0.06); }
 .opt-item.correct { border-color:#00ff88; background:rgba(0,255,136,0.08); color:#8fffce; }
 .opt-item.wrong { border-color:#ff6b6b; background:rgba(255,107,107,0.08); color:#ffb0b0; }
 .opt-item.disabled { pointer-events:none; opacity:.85; }
@@ -109,7 +134,7 @@ table.discovery tr.filled td { color:#00ff88; }
 /* ===== بسط (Elaborate) ===== */
 .toggle-row { display:flex; gap:8px; margin-bottom:8px; }
 .toggle-btn { flex:1; padding:9px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.6); cursor:pointer; font-family:inherit; font-size:14px; font-weight:700; }
-.toggle-btn.active { border-color:#ffd700; color:#ffd700; background:rgba(255,215,0,0.08); }
+.toggle-btn.active { border-color:#d9a441; color:#d9a441; background:rgba(217,164,65,0.08); }
 .criteria-row { display:flex; justify-content:space-between; align-items:center; padding:9px 4px; border-bottom:1px solid rgba(255,255,255,0.05); font-size:14px; }
 .criteria-row .yn { display:flex; gap:6px; }
 .yn button { padding:5px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.6); cursor:pointer; font-family:inherit; font-size:13px; }
@@ -120,11 +145,11 @@ table.discovery tr.filled td { color:#00ff88; }
 .eval-progress { font-size:13px; color:rgba(255,255,255,0.35); margin-bottom:4px; }
 .eval-summary-row { display:flex; justify-content:space-between; background:rgba(255,255,255,0.03); border-radius:10px; padding:8px 12px; font-size:13px; color:rgba(255,255,255,0.6); margin-top:12px; }
 #final-panel { text-align:center; }
-#final-panel .score-big { font-size:38px; font-weight:800; color:#ffd700; margin:6px 0; }
+#final-panel .score-big { font-size:38px; font-weight:800; color:#d9a441; margin:6px 0; }
 .bloom-report { text-align:right; font-size:13.5px; margin:14px 0; }
 .bloom-report .row { display:flex; justify-content:space-between; padding:6px 4px; border-bottom:1px solid rgba(255,255,255,0.05); }
 
-@media (max-width:380px){ .panel{padding:14px 12px;} #three-container{height:180px;} .predict-grid{gap:6px;} }
+@media (max-width:380px){ .panel{padding:14px 12px;} .three-view{height:180px;} .predict-grid{gap:6px;} }
 </style>
 </head>
 <body>
@@ -146,6 +171,7 @@ table.discovery tr.filled td { color:#00ff88; }
     <div class="stage-dot" data-stage="evaluate"><div class="line"></div><div class="circle">📝</div>سنجش</div>
   </div>
 </div>
+<div class="kilim-border"></div>
 
 <div id="stage-wrap">
 
@@ -155,7 +181,7 @@ table.discovery tr.filled td { color:#00ff88; }
     <span class="score-pill" id="engage-score">۰ از ۰</span>
     <h2>معمای اجسام مرموز 🔎</h2>
     <p>یک جسم سه‌بعدی به تو نشان داده می‌شود. آن را بچرخان و نگاهش کن، سپس حدس بزن: آیا این یک <span class="highlight">حجم هندسی</span> است یا <span class="highlight-red">غیرهندسی</span>؟</p>
-    <div id="three-container"><div id="shape-hint">🖱️ بکش و بچرخان</div><div id="three-fallback">نمایش سه‌بعدی بارگذاری نشد (اتصال اینترنت را بررسی کن). می‌توانی ادامه دهی.</div></div>
+    <div id="three-container" class="three-view"><div id="shape-hint">🖱️ بکش و بچرخان</div><div id="three-fallback">نمایش سه‌بعدی بارگذاری نشد (اتصال اینترنت را بررسی کن). می‌توانی ادامه دهی.</div></div>
     <div class="sort-buttons">
       <button class="sort-btn geo" id="btn-geo">✅ هندسی است</button>
       <button class="sort-btn nongeo" id="btn-nongeo">❌ غیرهندسی است</button>
@@ -171,7 +197,7 @@ table.discovery tr.filled td { color:#00ff88; }
     <h2>یک منشور را بساز و بشمار 🧊</h2>
     <p>با تغییر عدد <span class="highlight-blue">n</span> (تعداد اضلاع قاعده)، شکل منشور در ادامه تغییر می‌کند. قبل از اینکه سیستم پاسخ را نشان دهد، <span class="highlight">حدس خودت را وارد کن</span>.</p>
     <div class="slider-row"><span>n = ۳</span><input type="range" id="n-slider" min="3" max="8" value="4" step="1"><span>n = ۸</span><span class="n-val" id="n-val">۴</span></div>
-    <div id="three-container-explore"><div id="shape-hint2" class="hint" style="border:none;background:none;padding:0;text-align:center">🖱️ بکش و بچرخان</div></div>
+    <div id="three-container-explore" class="three-view"><div id="shape-hint2" class="hint" style="border:none;background:none;padding:0;text-align:center">🖱️ بکش و بچرخان</div></div>
     <div class="hint">پیش‌بینی کن: منشور <b id="n-label">۴</b> پهلو چند وجه جانبی، رأس و یال دارد؟</div>
     <div class="predict-grid">
       <div><label>وجه جانبی</label><input type="number" id="guess-faces"></div>
@@ -227,7 +253,7 @@ table.discovery tr.filled td { color:#00ff88; }
       <button class="toggle-btn active" id="tog-prism">🔷 منشور ۵پهلو</button>
       <button class="toggle-btn" id="tog-cone">🔺 مخروط</button>
     </div>
-    <div id="three-container-elaborate"></div>
+    <div id="three-container-elaborate" class="three-view"></div>
     <div id="criteria-wrap"></div>
     <div class="hint" id="elaborate-summary" style="display:none"></div>
     <button class="btn btn-primary" id="elaborate-to-evaluate-btn" disabled>📝 برویم به مرحلهٔ سنجش</button>
@@ -253,6 +279,12 @@ table.discovery tr.filled td { color:#00ff88; }
     </div>
   </div>
 
+</div>
+
+<div id="site-footer">
+  <div class="fline"></div>
+  <div class="fname">👨‍🏫 مدرس: بگنج مرادی</div>
+  <div class="fsub">🌾 طراحی و توسعه: بگنج مرادی — استان گلستان</div>
 </div>
 
 <script type="importmap">
@@ -326,7 +358,7 @@ function makeScene(containerId) {
     const rect = container.getBoundingClientRect();
     const width = rect.width || 300, height = rect.height || 200;
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x0a0a1a);
+    scene.background = new THREE.Color(0x1c0d0f);
     const camera = new THREE.PerspectiveCamera(35, width/height, 0.1, 100);
     camera.position.set(4,3,6);
     const renderer = new THREE.WebGLRenderer({ antialias:true });
@@ -356,7 +388,7 @@ function setGroup(sceneObj, group) {
   sceneObj.scene.add(group); sceneObj.group = group;
   sceneObj.camera.position.set(4,3,6); sceneObj.controls.target.set(0,0,0); sceneObj.controls.update();
 }
-function edgesFor(geo, color=0xffd700, op=0.45) {
+function edgesFor(geo, color=0xd9a441, op=0.45) {
   return new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color, transparent:true, opacity:op}));
 }
 function createPrism(sides, radius, height, bodyColor, baseColor) {
@@ -379,7 +411,7 @@ function createCone(sides, radius, height, color) {
   const geo = new THREE.ConeGeometry(radius, height, sides);
   const mat = new THREE.MeshStandardMaterial({ color, roughness:0.3, metalness:0.05, transparent:true, opacity:0.85, side:THREE.DoubleSide });
   group.add(new THREE.Mesh(geo, mat));
-  group.add(edgesFor(geo, 0xffd700, 0.3));
+  group.add(edgesFor(geo, 0xd9a441, 0.3));
   return group;
 }
 function createBlob(seed) {
@@ -403,7 +435,7 @@ function createBlob(seed) {
 function createCube() {
   const group = new THREE.Group();
   const geo = new THREE.BoxGeometry(1.6,1.6,1.6);
-  const mat = new THREE.MeshStandardMaterial({ color:0x4a6cf7, roughness:0.3, transparent:true, opacity:0.85 });
+  const mat = new THREE.MeshStandardMaterial({ color:0x2ec4b6, roughness:0.3, transparent:true, opacity:0.85 });
   group.add(new THREE.Mesh(geo, mat)); group.add(edgesFor(geo));
   return group;
 }
@@ -411,13 +443,13 @@ function createSphere() {
   const group = new THREE.Group();
   const geo = new THREE.SphereGeometry(1,48,32);
   const mat = new THREE.MeshStandardMaterial({ color:0xe84393, roughness:0.2, transparent:true, opacity:0.85 });
-  group.add(new THREE.Mesh(geo, mat)); group.add(edgesFor(geo,0xffd700,0.15));
+  group.add(new THREE.Mesh(geo, mat)); group.add(edgesFor(geo,0xd9a441,0.15));
   return group;
 }
 function createCylinder() {
   const group = new THREE.Group();
   const geo = new THREE.CylinderGeometry(0.9,0.9,1.8,32);
-  const mat = new THREE.MeshStandardMaterial({ color:0x2ecc71, roughness:0.3, transparent:true, opacity:0.85 });
+  const mat = new THREE.MeshStandardMaterial({ color:0x2ec4b6, roughness:0.3, transparent:true, opacity:0.85 });
   group.add(new THREE.Mesh(geo, mat)); group.add(edgesFor(geo));
   return group;
 }
@@ -530,7 +562,7 @@ function toFa(num){ return String(num).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷�
 function updateExploreShape(n) {
   document.getElementById('n-val').textContent = toFa(n);
   document.getElementById('n-label').textContent = toFa(n);
-  setGroup(renderers['three-container-explore'], createPrism(n, 1.5, 2.2, 0x4a6cf7, 0xff6b6b));
+  setGroup(renderers['three-container-explore'], createPrism(n, 1.5, 2.2, 0x2ec4b6, 0xff6b6b));
   document.getElementById('guess-faces').value = '';
   document.getElementById('guess-vertices').value = '';
   document.getElementById('guess-edges').value = '';
@@ -646,8 +678,8 @@ function initElaborate(){
   saveProgress(false);
 }
 function renderElaborateShape(){
-  if (elaborateShape === 'prism') setGroup(renderers['three-container-elaborate'], createPrism(5,1.5,2.2,0x4a6cf7,0xff6b6b));
-  else setGroup(renderers['three-container-elaborate'], createCone(32,1.5,2.2,0xf39c12));
+  if (elaborateShape === 'prism') setGroup(renderers['three-container-elaborate'], createPrism(5,1.5,2.2,0x2ec4b6,0xff6b6b));
+  else setGroup(renderers['three-container-elaborate'], createCone(32,1.5,2.2,0xe2703a));
   document.getElementById('tog-prism').classList.toggle('active', elaborateShape==='prism');
   document.getElementById('tog-cone').classList.toggle('active', elaborateShape==='cone');
 }

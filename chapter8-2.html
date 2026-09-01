@@ -1,1040 +1,899 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فصل ۸ - بخش دوم: حجم‌های منشوری و استوانه</title>
-    <style>
-        /* ===== استایل‌های مشابه بخش اول ===== */
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family: 'Vazirmatn','Segoe UI',sans-serif; background:#0a0a1a; color:white; overflow:hidden; height:100vh; user-select:none; }
-        #header { position:absolute; top:8px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:white; padding:6px 18px 5px 18px; border-radius:25px; z-index:100; border:1px solid rgba(255,215,0,0.2); backdrop-filter:blur(10px); text-align:center; min-width:160px; pointer-events:none; width:auto; max-width:90%; }
-        #header .main-title { font-size:18px; font-weight:700; color:#ffd700; }
-        #header .main-title span { color:#ffffff; }
-        #header .sub-title { font-size:13px; color:rgba(255,255,255,0.35); margin-top:1px; border-top:1px solid rgba(255,255,255,0.05); padding-top:2px; }
-        #slide-content { position:absolute; top:52%; right:50%; transform:translate(50%,-50%); width:96%; max-width:500px; height:82vh; max-height:720px; z-index:30; background:rgba(0,0,0,0.75); backdrop-filter:blur(15px); border-radius:20px; border:1px solid rgba(255,255,255,0.05); padding:14px 16px; display:flex; flex-direction:column; gap:6px; box-shadow:0 20px 60px rgba(0,0,0,0.6); overflow:hidden; }
-        #slide-text-area { display:flex; flex-direction:column; overflow-y:auto; flex:0 0 auto; max-height:50%; padding:0 2px; }
-        #slide-text-area::-webkit-scrollbar { width:3px; }
-        #slide-text-area::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.15); border-radius:3px; }
-        #slide-title { font-size:22px; font-weight:700; color:#ffd700; margin-bottom:6px; display:flex; align-items:center; gap:8px; flex-shrink:0; }
-        #slide-title .slide-num { font-size:16px; color:rgba(255,255,255,0.12); font-weight:400; }
-        #slide-body { font-size:18px; line-height:2.2; color:rgba(255,255,255,0.92); }
-        #slide-body p { margin-bottom:6px; }
-        #slide-body .highlight { color:#ffd700; font-weight:600; }
-        #slide-body .highlight-red { color:#ff6b6b; font-weight:600; }
-        #slide-body .highlight-blue { color:#4a6cf7; font-weight:600; }
-        #slide-body .highlight-green { color:#00ff88; font-weight:600; }
-        #slide-body .box { background:rgba(255,215,0,0.06); border-right:3px solid #ffd700; padding:6px 14px; border-radius:6px; margin:4px 0; font-size:17px; }
-        #slide-body .box-red { background:rgba(255,107,107,0.06); border-right:3px solid #ff6b6b; padding:6px 14px; border-radius:6px; margin:4px 0; font-size:17px; }
-        #slide-body .box-blue { background:rgba(74,108,247,0.06); border-right:3px solid #4a6cf7; padding:6px 14px; border-radius:6px; margin:4px 0; font-size:17px; }
-        #slide-body .box-green { background:rgba(0,255,136,0.06); border-right:3px solid #00ff88; padding:6px 14px; border-radius:6px; margin:4px 0; font-size:17px; }
-        #slide-body .box-formula { background:rgba(255,215,0,0.08); border:2px solid rgba(255,215,0,0.2); border-radius:10px; padding:8px 12px; margin:4px 0; text-align:center; font-size:18px; font-weight:700; color:#ffd700; }
-        #slide-body .num { font-family:'Courier New',monospace; font-weight:700; direction:ltr; display:inline-block; }
-        #slide-body .example-box { background:rgba(255,215,0,0.06); border:1px solid rgba(255,215,0,0.12); border-radius:8px; padding:6px 14px; margin:4px 0; font-size:17px; }
-        #three-container { border-radius:14px; overflow:hidden; background:rgba(10,10,26,0.5); border:1px solid rgba(255,255,255,0.03); position:relative; flex:1; min-height:200px; width:100%; }
-        #three-container canvas { width:100% !important; height:100% !important; display:block; }
-        #shape-hint { position:absolute; bottom:6px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.08); font-size:12px; background:rgba(0,0,0,0.4); padding:2px 12px; border-radius:10px; white-space:nowrap; pointer-events:none; z-index:5; }
-        #nav-buttons { position:absolute; bottom:12px; right:50%; transform:translateX(50%); z-index:40; display:flex; gap:10px; align-items:center; }
-        .nav-btn { padding:8px 22px; border-radius:10px; border:none; font-size:16px; font-weight:600; cursor:pointer; transition:all 0.3s; font-family:inherit; background:rgba(255,255,255,0.05); color:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.06); }
-        .nav-btn:hover:not(:disabled) { background:rgba(255,215,0,0.08); border-color:rgba(255,215,0,0.2); color:#ffd700; }
-        .nav-btn:disabled { opacity:0.2; cursor:not-allowed; }
-        .nav-btn.primary { background:linear-gradient(135deg,#ffd700,#f5a623); color:#0a0a1a; border:none; }
-        .nav-btn.primary:hover:not(:disabled) { box-shadow:0 4px 20px rgba(255,215,0,0.15); }
-        .nav-btn .icon { margin:0 3px; }
-        #slide-counter { color:rgba(255,255,255,0.1); font-size:15px; min-width:45px; text-align:center; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فصل ۸ - بخش دوم: حجم منشور و استوانه (مدل ۵E)</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Vazirmatn','Segoe UI',sans-serif; color:white; min-height:100vh; overflow-x:hidden;
+  background-color:#1c0d0f;
+  background-image:
+    linear-gradient(135deg, rgba(217,164,65,0.05) 25%, transparent 25%, transparent 75%, rgba(217,164,65,0.05) 75%),
+    linear-gradient(45deg, rgba(217,164,65,0.05) 25%, transparent 25%, transparent 75%, rgba(217,164,65,0.05) 75%),
+    radial-gradient(ellipse at top, rgba(226,112,58,0.10), transparent 60%);
+  background-size:28px 28px, 28px 28px, 100% 100%;
+  background-position:0 0, 14px 14px, 0 0;
+  background-attachment:fixed;
+}
+.kilim-border { height:8px; width:100%;
+  background-image:
+    linear-gradient(135deg, #b9502a 25%, transparent 25%) 0 0,
+    linear-gradient(225deg, #b9502a 25%, transparent 25%) 0 0,
+    linear-gradient(315deg, #b9502a 25%, transparent 25%) 0 0,
+    linear-gradient(45deg, #b9502a 25%, transparent 25%) 0 0;
+  background-size:10px 10px; background-color:#d9a441; opacity:0.75;
+}
+#site-footer { text-align:center; padding:16px 10px 28px; }
+#site-footer .fline { width:120px; height:2px; background:linear-gradient(90deg, transparent, #d9a441, transparent); margin:0 auto 10px; }
+#site-footer .fname { color:#d9a441; font-size:13px; font-weight:700; }
+#site-footer .fsub { color:rgba(255,255,255,0.28); font-size:11px; margin-top:3px; }
+::-webkit-scrollbar { width:4px; height:4px; }
+::-webkit-scrollbar-track { background:rgba(255,255,255,0.02); }
+::-webkit-scrollbar-thumb { background:rgba(217,164,65,0.15); border-radius:3px; }
 
-        /* ===== اسلایدر ارتفاع ===== */
-        #height-control { position:absolute; bottom:70px; right:50%; transform:translateX(50%); z-index:40; display:none; gap:12px; align-items:center; background:rgba(0,0,0,0.7); padding:8px 18px; border-radius:14px; backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.06); }
-        #height-control label { color:rgba(255,255,255,0.5); font-size:14px; font-weight:600; }
-        #height-control input[type="range"] { width:150px; height:4px; -webkit-appearance:none; appearance:none; background:rgba(255,215,0,0.3); border-radius:2px; outline:none; }
-        #height-control input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%; background:#ffd700; cursor:pointer; box-shadow:0 0 15px rgba(255,215,0,0.2); }
-        #height-control input[type="range"]::-moz-range-thumb { width:18px; height:18px; border-radius:50%; background:#ffd700; cursor:pointer; border:none; }
-        #height-value { color:#ffd700; font-weight:700; font-size:16px; min-width:35px; text-align:center; }
+/* ===== هدر + نوار پیشرفت مراحل ۵E ===== */
+#header { position:sticky; top:0; z-index:100; background:rgba(28,13,15,0.94); backdrop-filter:blur(12px); padding:10px 12px 8px; }
+#header .top-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+#header .main-title { font-size:16px; font-weight:700; }
+#header .main-title span { color:#d9a441; }
+#header .back-link { font-size:12px; color:rgba(255,255,255,0.35); text-decoration:none; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:4px 10px; cursor:pointer; background:none; font-family:inherit; }
+#header .back-link:hover { color:#d9a441; border-color:rgba(217,164,65,0.3); }
+#stage-track { display:flex; justify-content:space-between; gap:4px; max-width:520px; margin:0 auto; }
+.stage-dot { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; font-size:10px; color:rgba(255,255,255,0.25); position:relative; }
+.stage-dot .circle { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; background:rgba(255,255,255,0.04); border:2px solid rgba(255,255,255,0.08); transition:all .3s; }
+.stage-dot.active .circle { border-color:#d9a441; background:rgba(217,164,65,0.12); color:#d9a441; box-shadow:0 0 12px rgba(217,164,65,0.25); }
+.stage-dot.done .circle { border-color:#00ff88; background:rgba(0,255,136,0.08); color:#00ff88; }
+.stage-dot.active { color:#d9a441; }
+.stage-dot.done { color:#00ff88; }
+.stage-dot .line { position:absolute; top:13px; right:100%; width:100%; height:2px; background:rgba(255,255,255,0.08); z-index:-1; }
+.stage-dot.done .line, .stage-dot.active .line { background:rgba(217,164,65,0.25); }
+.stage-dot:first-child .line { display:none; }
 
-        /* ===== صفحه آزمون ===== */
-        #exam-screen { display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:200; background:rgba(10,10,26,0.97); backdrop-filter:blur(20px); justify-content:center; align-items:center; }
-        #exam-screen.show { display:flex; }
-        #exam-box { background:rgba(255,255,255,0.03); border:1px solid rgba(255,215,0,0.12); border-radius:22px; padding:20px 22px; max-width:500px; width:94%; max-height:85vh; display:flex; flex-direction:column; box-shadow:0 20px 60px rgba(0,0,0,0.8); position:relative; }
-        #exam-box h2 { color:#ffd700; font-size:22px; margin-bottom:2px; text-align:center; }
-        #exam-box .exam-sub { color:rgba(255,255,255,0.25); text-align:center; font-size:15px; margin-bottom:6px; }
-        #exam-timer { text-align:center; font-size:18px; font-weight:700; color:#ffd700; margin-bottom:8px; background:rgba(255,215,0,0.06); padding:4px; border-radius:8px; border:1px solid rgba(255,215,0,0.08); }
-        #exam-timer.warning { color:#ff6b6b; border-color:rgba(255,107,107,0.2); animation:blink 1s infinite; }
-        @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
-        #exam-question-area { flex:1; overflow-y:auto; padding:0 2px; }
-        #exam-question-area::-webkit-scrollbar { width:4px; }
-        #exam-question-area::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.15); border-radius:3px; }
-        .exam-question { padding:16px 14px; background:rgba(255,255,255,0.03); border-radius:14px; border:1px solid rgba(255,255,255,0.08); margin-bottom:10px; }
-        .exam-question .q-text { font-size:19px; font-weight:600; color:rgba(255,255,255,0.95); margin-bottom:12px; }
-        .exam-question .q-text .q-num { color:#ffd700; margin-left:5px; }
-        .options { display:grid; grid-template-columns:1fr; gap:10px; margin-top:10px; }
-        .option-label { display:flex; align-items:center; gap:10px; padding:14px 16px; background:rgba(255,255,255,0.03); border-radius:12px; border:2px solid rgba(255,255,255,0.08); cursor:pointer; transition:all 0.3s; font-size:18px; color:rgba(255,255,255,0.8); }
-        .option-label:hover { background:rgba(255,255,255,0.05); border-color:rgba(255,215,0,0.15); }
-        .option-label input[type="radio"] { appearance:none; width:16px; height:16px; border:2px solid rgba(255,255,255,0.15); border-radius:50%; flex-shrink:0; transition:all 0.3s; cursor:pointer; position:relative; }
-        .option-label input[type="radio"]:checked { border-color:#ffd700; background:#ffd700; }
-        .option-label input[type="radio"]:checked::after { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:4px; height:4px; background:#0a0a1a; border-radius:50%; }
-        .option-label.selected { border-color:#ffd700; background:rgba(255,215,0,0.05); color:white; }
-        .option-label.correct { border-color:#00ff88; background:rgba(0,255,136,0.06); color:#00ff88; }
-        .option-label.wrong { border-color:#ff6b6b; background:rgba(255,107,107,0.06); color:#ff6b6b; }
-        .option-label.disabled { cursor:default; opacity:0.6; }
-        .option-label .letter { color:rgba(255,255,255,0.15); font-weight:700; min-width:16px; font-size:15px; }
-        #exam-nav { display:flex; justify-content:center; margin-top:8px; flex-shrink:0; gap:10px; }
-        #exam-nav .nav-btn { flex:1; padding:10px 12px; font-size:16px; max-width:200px; }
-        #exam-nav .nav-btn.primary { background:linear-gradient(135deg,#ffd700,#f5a623); color:#0a0a1a; border:none; font-weight:700; }
-        #exam-nav .nav-btn.primary:hover:not(:disabled) { box-shadow:0 4px 20px rgba(255,215,0,0.15); }
-        #exam-nav .nav-btn.primary:disabled { opacity:0.4; cursor:not-allowed; }
-        #confirm-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:300; background:rgba(0,0,0,0.75); backdrop-filter:blur(8px); justify-content:center; align-items:center; }
-        #confirm-modal.show { display:flex; }
-        #confirm-modal .modal-box { background:rgba(20,20,40,0.95); border:1px solid rgba(255,215,0,0.15); border-radius:22px; padding:24px 28px; max-width:400px; width:90%; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.9); }
-        #confirm-modal .modal-box .icon { font-size:48px; display:block; margin-bottom:8px; }
-        #confirm-modal .modal-box .title { font-size:22px; font-weight:700; margin-bottom:4px; }
-        #confirm-modal .modal-box .title.correct { color:#00ff88; }
-        #confirm-modal .modal-box .title.wrong { color:#ff6b6b; }
-        #confirm-modal .modal-box .desc { color:rgba(255,255,255,0.5); font-size:16px; margin-bottom:16px; line-height:1.6; }
-        #confirm-modal .modal-box .btn-row { display:flex; gap:10px; justify-content:center; }
-        #confirm-modal .modal-box .btn-row button { padding:8px 28px; border-radius:10px; border:none; font-size:16px; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.3s; }
-        #confirm-modal .modal-box .btn-row .btn-primary { background:linear-gradient(135deg,#ffd700,#f5a623); color:#0a0a1a; }
-        #confirm-modal .modal-box .btn-row .btn-primary:hover { transform:scale(1.02); }
-        #exam-result { text-align:center; margin-top:10px; padding:10px; border-radius:10px; display:none; flex-direction:column; align-items:center; gap:6px; }
-        #exam-result.show { display:flex; }
-        #exam-result .score { font-size:28px; font-weight:700; color:#ffd700; }
-        #exam-result .msg { font-size:18px; }
-        #exam-result .next-btn { padding:10px 30px; border-radius:12px; border:none; background:linear-gradient(135deg,#00ff88,#00cc77); color:#0a0a1a; font-size:18px; font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.3s; margin-top:4px; }
-        #exam-result .next-btn:hover { transform:scale(1.03); box-shadow:0 4px 25px rgba(0,255,136,0.2); }
-        #close-exam-btn { position:absolute; top:10px; left:10px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.06); color:rgba(255,255,255,0.3); padding:4px 14px; border-radius:8px; cursor:pointer; font-family:inherit; font-size:14px; transition:all 0.3s; z-index:210; }
-        #close-exam-btn:hover { background:rgba(255,255,255,0.08); color:white; }
-        .fade-in { animation:fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-        ::-webkit-scrollbar { width:3px; height:3px; }
-        ::-webkit-scrollbar-track { background:rgba(255,255,255,0.01); }
-        ::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.12); border-radius:3px; }
-        ::-webkit-scrollbar-thumb:hover { background:rgba(255,215,0,0.2); }
+/* ===== کارت اصلی مرحله ===== */
+#stage-wrap { max-width:560px; margin:14px auto; padding:0 12px 90px; }
+.panel { position:relative; background:rgba(70,28,26,0.35); border:1px solid rgba(217,164,65,0.18); border-radius:16px; padding:18px 16px; box-shadow:0 15px 45px rgba(0,0,0,0.5); animation:fadeIn .35s ease; }
+.panel::before, .panel::after { content:''; position:absolute; top:-6px; width:11px; height:11px; background:#d9a441; transform:rotate(45deg); border-radius:2px; box-shadow:0 0 0 1px rgba(28,13,15,0.6); }
+.panel::before { right:14px; }
+.panel::after { left:14px; }
+@keyframes fadeIn { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+.stage-badge { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:700; padding:4px 12px; border-radius:20px; margin-bottom:10px; }
+.stage-badge.engage { background:rgba(255,107,107,0.12); color:#ff8080; }
+.stage-badge.explore { background:rgba(46,196,182,0.15); color:#4dd9c9; }
+.stage-badge.explain { background:rgba(217,164,65,0.12); color:#d9a441; }
+.stage-badge.elaborate { background:rgba(0,255,136,0.1); color:#3dffab; }
+.stage-badge.evaluate { background:rgba(232,67,147,0.12); color:#ff7fbf; }
+.panel h2 { font-size:19px; color:#fff; margin-bottom:8px; line-height:1.5; }
+.panel p { font-size:15.5px; line-height:2; color:rgba(255,255,255,0.85); margin-bottom:8px; }
+.hint { font-size:13px; color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.03); border-radius:10px; padding:8px 12px; margin:8px 0; border-right:3px solid rgba(217,164,65,0.3); }
+.highlight { color:#d9a441; font-weight:700; }
+.highlight-red { color:#ff6b6b; font-weight:700; }
+.highlight-blue { color:#4dd9c9; font-weight:700; }
+.box { background:rgba(217,164,65,0.06); border-right:3px solid #d9a441; padding:8px 14px; border-radius:8px; margin:8px 0; font-size:15px; }
+.box-green { background:rgba(0,255,136,0.06); border-right:3px solid #00ff88; padding:8px 14px; border-radius:8px; margin:8px 0; font-size:15px; }
+table.discovery { width:100%; border-collapse:collapse; margin:10px 0; font-size:14px; }
+table.discovery th { background:rgba(217,164,65,0.08); color:#d9a441; padding:6px; border:1px solid rgba(255,255,255,0.06); }
+table.discovery td { padding:6px; border:1px solid rgba(255,255,255,0.06); text-align:center; color:rgba(255,255,255,0.85); }
+table.discovery tr.filled td { color:#00ff88; }
 
-        @media (max-width:400px) {
-            #slide-content { padding:10px 12px; height:84vh; top:52%; }
-            #slide-title { font-size:19px; }
-            #slide-body { font-size:16px; line-height:2; }
-            #three-container { min-height:160px; }
-            #header { padding:4px 14px 3px 14px; min-width:130px; top:6px; }
-            #header .main-title { font-size:15px; }
-            #header .sub-title { font-size:10px; }
-            #nav-buttons { bottom:8px; gap:6px; }
-            .nav-btn { padding:5px 16px; font-size:13px; }
-            #slide-counter { font-size:13px; min-width:35px; }
-            #shape-hint { font-size:10px; padding:1px 8px; bottom:4px; }
-            #height-control input[type="range"] { width:70px; }
-            #height-control { padding:5px 12px; gap:6px; bottom:60px; }
-            #height-control label { font-size:12px; }
-            #height-value { font-size:13px; min-width:25px; }
-            #exam-box { padding:12px 14px; }
-            #exam-box h2 { font-size:20px; }
-            .exam-question .q-text { font-size:15px; }
-            .option-label { font-size:19px; padding:16px 18px; border-radius:12px; margin-bottom:8px; }
-            #exam-nav .nav-btn { font-size:14px; padding:8px 10px; }
-            #confirm-modal .modal-box { padding:18px 16px; }
-            #confirm-modal .modal-box .icon { font-size:36px; }
-            #confirm-modal .modal-box .title { font-size:18px; }
-            #exam-result .score { font-size:22px; }
-            #exam-result .next-btn { font-size:16px; padding:8px 22px; }
-            #exam-timer { font-size:16px; padding:3px 6px; }
-            #close-exam-btn { font-size:12px; padding:3px 10px; }
-        }
-        @media (min-width:600px) {
-            #slide-content { max-width:700px; max-height:620px; padding:20px 24px; }
-            #slide-title { font-size:26px; }
-            #slide-body { font-size:20px; }
-            #three-container { min-height:300px; }
-            #header .main-title { font-size:22px; }
-            #header .sub-title { font-size:14px; }
-            .nav-btn { padding:10px 28px; font-size:17px; }
-            #slide-counter { font-size:17px; }
-            #height-control input[type="range"] { width:200px; }
-            #exam-box h2 { font-size:26px; }
-            .exam-question .q-text { font-size:19px; }
-            .option-label { font-size:18px; }
-            #exam-nav .nav-btn { font-size:17px; padding:10px 20px; }
-            #confirm-modal .modal-box { padding:28px 32px; }
-            #confirm-modal .modal-box .icon { font-size:56px; }
-            #confirm-modal .modal-box .title { font-size:26px; }
-            #exam-result .score { font-size:32px; }
-            #exam-result .next-btn { font-size:20px; padding:12px 36px; }
-            #exam-timer { font-size:20px; }
-        }
-    </style>
+/* ===== ویوی سه‌بعدی ===== */
+.three-view { border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); position:relative; height:220px; width:100%; margin:10px 0; }
+.three-view canvas { width:100% !important; height:100% !important; display:block; }
+#shape-hint { position:absolute; bottom:6px; left:50%; transform:translateX(-50%); color:rgba(255,255,255,0.25); font-size:11px; background:rgba(0,0,0,0.4); padding:2px 10px; border-radius:10px; pointer-events:none; }
+#three-fallback { display:none; text-align:center; padding:30px 10px; color:rgba(255,255,255,0.4); font-size:14px; }
+
+/* ===== دکمه‌ها ===== */
+.btn { padding:12px 18px; border-radius:12px; border:none; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; transition:all .25s; width:100%; margin-top:6px; }
+.btn-primary { background:linear-gradient(135deg,#d9a441,#b97a2a); color:#1c0d0f; }
+.btn-primary:disabled { opacity:.35; cursor:not-allowed; }
+.btn-primary:hover:not(:disabled) { transform:scale(1.015); box-shadow:0 4px 20px rgba(217,164,65,0.2); }
+.btn-outline { background:rgba(255,255,255,0.04); color:rgba(255,255,255,0.7); border:1px solid rgba(255,255,255,0.1); }
+.btn-outline:hover { border-color:rgba(217,164,65,0.3); color:#d9a441; }
+.btn-row { display:flex; gap:8px; }
+.btn-row .btn { margin-top:6px; }
+
+/* ===== بازی چینه‌بندی (Engage) ===== */
+.sort-buttons { display:flex; gap:10px; margin-top:6px; }
+.sort-btn { flex:1; padding:16px 8px; border-radius:14px; border:2px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03); color:white; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; }
+.sort-btn.geo { border-color:rgba(0,255,136,0.25); }
+.sort-btn.geo:hover { background:rgba(0,255,136,0.08); }
+.sort-btn.nongeo { border-color:rgba(255,107,107,0.25); }
+.sort-btn.nongeo:hover { background:rgba(255,107,107,0.08); }
+.feedback-box { margin-top:10px; padding:10px 14px; border-radius:12px; font-size:14px; display:none; }
+.feedback-box.correct { display:block; background:rgba(0,255,136,0.08); border:1px solid rgba(0,255,136,0.2); color:#8fffce; }
+.feedback-box.wrong { display:block; background:rgba(255,107,107,0.08); border:1px solid rgba(255,107,107,0.2); color:#ffb0b0; }
+.score-pill { float:left; font-size:12px; color:rgba(255,255,255,0.35); background:rgba(255,255,255,0.04); padding:3px 10px; border-radius:10px; }
+
+/* ===== کاوش (Explore) ===== */
+.slider-row { display:flex; align-items:center; gap:10px; margin:10px 0; }
+.slider-row input[type=range] { flex:1; accent-color:#d9a441; }
+.slider-row .n-val { font-size:20px; font-weight:700; color:#d9a441; min-width:34px; text-align:center; }
+.predict-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:10px 0; }
+.predict-grid label { font-size:12px; color:rgba(255,255,255,0.5); display:block; margin-bottom:3px; }
+.predict-grid input { width:100%; padding:9px 6px; text-align:center; border-radius:10px; border:1px solid rgba(255,255,255,0.12); background:rgba(255,255,255,0.05); color:white; font-size:16px; font-family:inherit; }
+.predict-grid input.ok { border-color:#00ff88; background:rgba(0,255,136,0.08); }
+.predict-grid input.bad { border-color:#ff6b6b; background:rgba(255,107,107,0.08); }
+
+/* ===== توضیح (Explain) فرمول‌های تیک‌مارک ===== */
+.formula-box { text-align:center; font-size:18px; font-weight:700; color:#d9a441; padding:8px; background:rgba(217,164,65,0.07); border-radius:10px; margin:6px 0; direction:ltr; }
+.check-q { background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:10px 12px; margin-top:10px; }
+.bloom-tag { font-size:10px; padding:2px 8px; border-radius:8px; margin-inline-start:6px; font-weight:700; vertical-align:middle; }
+.bloom-remember { background:rgba(46,196,182,0.15); color:#4dd9c9; }
+.bloom-understand { background:rgba(217,164,65,0.15); color:#d9a441; }
+.bloom-apply { background:rgba(0,255,136,0.15); color:#5dffb8; }
+.bloom-analyze { background:rgba(255,107,107,0.15); color:#ff9d9d; }
+.opt-list { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+.opt-item { padding:10px 12px; border-radius:10px; border:2px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02); cursor:pointer; font-size:14.5px; transition:all .2s; }
+.opt-item:hover { border-color:rgba(217,164,65,0.2); }
+.opt-item.selected { border-color:#d9a441; background:rgba(217,164,65,0.06); }
+.opt-item.correct { border-color:#00ff88; background:rgba(0,255,136,0.08); color:#8fffce; }
+.opt-item.wrong { border-color:#ff6b6b; background:rgba(255,107,107,0.08); color:#ffb0b0; }
+.opt-item.disabled { pointer-events:none; opacity:.85; }
+
+/* ===== بسط (Elaborate) ===== */
+.toggle-row { display:flex; gap:8px; margin-bottom:8px; }
+.toggle-btn { flex:1; padding:9px; border-radius:10px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.6); cursor:pointer; font-family:inherit; font-size:14px; font-weight:700; }
+.toggle-btn.active { border-color:#d9a441; color:#d9a441; background:rgba(217,164,65,0.08); }
+.criteria-row { display:flex; justify-content:space-between; align-items:center; padding:9px 4px; border-bottom:1px solid rgba(255,255,255,0.05); font-size:14px; }
+.criteria-row .yn { display:flex; gap:6px; }
+.yn button { padding:5px 12px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.03); color:rgba(255,255,255,0.6); cursor:pointer; font-family:inherit; font-size:13px; }
+.yn button.chosen-right { border-color:#00ff88; color:#00ff88; background:rgba(0,255,136,0.08); }
+.yn button.chosen-wrong { border-color:#ff6b6b; color:#ff6b6b; background:rgba(255,107,107,0.08); }
+
+/* ===== سنجش (Evaluate) ===== */
+.eval-progress { font-size:13px; color:rgba(255,255,255,0.35); margin-bottom:4px; }
+.eval-summary-row { display:flex; justify-content:space-between; background:rgba(255,255,255,0.03); border-radius:10px; padding:8px 12px; font-size:13px; color:rgba(255,255,255,0.6); margin-top:12px; }
+#final-panel { text-align:center; }
+#final-panel .score-big { font-size:38px; font-weight:800; color:#d9a441; margin:6px 0; }
+.bloom-report { text-align:right; font-size:13.5px; margin:14px 0; }
+.bloom-report .row { display:flex; justify-content:space-between; padding:6px 4px; border-bottom:1px solid rgba(255,255,255,0.05); }
+
+@media (max-width:380px){ .panel{padding:14px 12px;} .three-view{height:180px;} .predict-grid{gap:6px;} }
+</style>
 </head>
 <body>
 <script>
-    const userId = localStorage.getItem('math9_userId');
-    if (!userId) { window.location.href = 'chapter8.html'; }
+  var __uid = localStorage.getItem('math9_userId');
+  if (!__uid) { window.location.href = 'index.html'; }
 </script>
-    <div id="header">
-        <div class="main-title">📐 فصل <span>۸</span> — مساحت و حجم</div>
-        <div class="sub-title">ریاضی نهم · بخش دوم — حجم‌های منشوری و استوانه</div>
+
+<div id="header">
+  <div class="top-row">
+    <div class="main-title">📐 فصل <span>۸</span> — بخش دوم: حجم منشور و استوانه</div>
+    <button class="back-link" id="exit-btn">خروج</button>
+  </div>
+  <div id="stage-track">
+    <div class="stage-dot" data-stage="engage"><div class="line"></div><div class="circle">🎯</div>درگیرسازی</div>
+    <div class="stage-dot" data-stage="explore"><div class="line"></div><div class="circle">🔍</div>کاوش</div>
+    <div class="stage-dot" data-stage="explain"><div class="line"></div><div class="circle">📖</div>توضیح</div>
+    <div class="stage-dot" data-stage="elaborate"><div class="line"></div><div class="circle">🧩</div>بسط</div>
+    <div class="stage-dot" data-stage="evaluate"><div class="line"></div><div class="circle">📝</div>سنجش</div>
+  </div>
+</div>
+<div class="kilim-border"></div>
+
+<div id="stage-wrap">
+
+  <!-- ================= ENGAGE ================= -->
+  <div class="panel" id="panel-engage" style="display:none">
+    <span class="stage-badge engage">🎯 درگیرسازی</span>
+    <span class="score-pill" id="engage-score">۰ از ۰</span>
+    <h2>معمای دو مخزن آب 💧</h2>
+    <p>دو مخزن استوانه‌ای با اندازه‌های متفاوت داریم. قبل از هر محاسبه‌ای، فقط با دیدن مدل سه‌بعدی و اندازه‌ها حدس بزن.</p>
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="tog-tank-a">🔵 مخزن A</button>
+      <button class="toggle-btn" id="tog-tank-b">🟠 مخزن B</button>
     </div>
-
-    <div id="slide-content" class="fade-in">
-        <div id="slide-text-area">
-            <div id="slide-title">
-                <span id="slide-title-text">📏 ارتفاع منشور چیست؟</span>
-                <span class="slide-num" id="slide-num-text">۱ / ۵</span>
-            </div>
-            <div id="slide-body">
-                <p>ارتفاع منشور، <span class="highlight">فاصلهٔ دو قاعده</span> است.</p>
-                <p>با تغییر ارتفاع، شکل ظاهری منشور تغییر می‌کند، ولی قاعده‌ها همان‌طور باقی می‌مانند.</p>
-                <div class="box-red"><span class="highlight-red">🔴 قاعده‌ها</span> — با رنگ قرمز مشخص شده‌اند</div>
-                <div class="box-blue"><span class="highlight-blue">🔵 سطح جانبی</span> — با رنگ آبی مشخص شده است</div>
-                <p style="font-size:14px; color:rgba(255,255,255,0.3); margin-top:2px;">🖱️ اسلایدر را حرکت دهید تا ارتفاع تغییر کند</p>
-            </div>
-        </div>
-        <div id="three-container">
-            <div id="shape-hint">🖱️ کلیک و بکشید</div>
-        </div>
+    <div id="three-container" class="three-view"><div id="shape-hint">🖱️ بکش و بچرخان</div><div id="three-fallback">نمایش سه‌بعدی بارگذاری نشد (اتصال اینترنت را بررسی کن). می‌توانی ادامه دهی.</div></div>
+    <div class="hint" id="tank-dims"></div>
+    <p>به نظر تو کدام مخزن گنجایش (حجم) بیشتری دارد؟</p>
+    <div class="sort-buttons">
+      <button class="sort-btn geo" id="btn-tank-a">مخزن A</button>
+      <button class="sort-btn nongeo" id="btn-tank-b">مخزن B</button>
+      <button class="sort-btn" id="btn-tank-eq" style="border-color:rgba(217,164,65,0.3)">مساوی‌اند</button>
     </div>
+    <div class="feedback-box" id="engage-feedback"></div>
+    <button class="btn btn-primary" id="engage-next-btn" style="display:none">دور بعدی ←</button>
+    <button class="btn btn-primary" id="engage-to-explore-btn" style="display:none">🔍 برویم به مرحلهٔ کاوش</button>
+  </div>
 
-    <div id="height-control">
-        <label>ارتفاع</label>
-        <input type="range" id="height-slider" min="0.8" max="4.5" value="2.5" step="0.1">
-        <span id="height-value">۲.۵</span>
+  <!-- ================= EXPLORE ================= -->
+  <div class="panel" id="panel-explore" style="display:none">
+    <span class="stage-badge explore">🔍 کاوش</span>
+    <h2>ارتفاع را تغییر بده و حجم را حدس بزن 📦</h2>
+    <p>قاعدهٔ این منشور همیشه یک مربع به ضلع <b>۲</b> است (پس مساحت قاعده <span class="highlight">S = ۴</span> ثابت می‌ماند). با تغییر ارتفاع <span class="highlight-blue">h</span>، حجم را پیش‌بینی کن.</p>
+    <div class="slider-row"><span>h=۱</span><input type="range" id="h-slider" min="1" max="8" value="2" step="1"><span>h=۸</span><span class="n-val" id="h-val">۲</span></div>
+    <div id="three-container-explore" class="three-view"><div id="shape-hint2" class="hint" style="border:none;background:none;padding:0;text-align:center">🖱️ بکش و بچرخان</div></div>
+    <div class="hint">مساحت قاعده = ۴ &nbsp;|&nbsp; ارتفاع = <b id="h-label">۲</b> &nbsp;|&nbsp; حجم = ؟</div>
+    <div class="predict-grid" style="grid-template-columns:1fr">
+      <div><label>حدس حجم</label><input type="number" id="guess-volume"></div>
     </div>
+    <button class="btn btn-primary" id="check-guess-btn">بررسی حدس من ✅</button>
+    <div class="feedback-box" id="explore-feedback"></div>
+    <table class="discovery" id="discovery-table">
+      <tr><th>ارتفاع (h)</th><th>مساحت قاعده (S)</th><th>حجم (S×h)</th></tr>
+    </table>
+    <button class="btn btn-primary" id="explore-to-explain-btn" disabled>📖 الگو را پیدا کردم، برویم به توضیح</button>
+  </div>
 
-    <div id="nav-buttons">
-        <button class="nav-btn" id="prev-btn" disabled><span class="icon">›</span> قبلی</button>
-        <span id="slide-counter">۱ / ۵</span>
-        <button class="nav-btn primary" id="next-btn">بعدی <span class="icon">‹</span></button>
+  <!-- ================= EXPLAIN ================= -->
+  <div class="panel" id="panel-explain" style="display:none">
+    <span class="stage-badge explain">📖 توضیح</span>
+    <h2>حالا رسمی‌اش می‌کنیم 📐</h2>
+    <p>در کاوش دیدی که با هر بار افزایش ارتفاع، حجم به همان نسبت زیاد می‌شود. به‌طور کلی:</p>
+    <div class="formula-box">حجم منشور = S × h</div>
+    <div style="color:rgba(255,255,255,0.5); font-size:14px; text-align:center; margin:2px 0 8px;">
+      <span class="highlight">S</span> = مساحت قاعده &nbsp;|&nbsp; <span class="highlight-blue">h</span> = ارتفاع منشور</div>
+    <p>این فرمول برای <span class="highlight">هر شکلی از قاعده</span> کار می‌کند (مربع، مثلث، ذوزنقه، لوزی، ستاره و...) — کافی است مساحت آن قاعده را درست حساب کنیم.</p>
+    <div class="box-green">🌀 <span class="highlight">استوانه</span> هم یک منشور با قاعدهٔ دایره است، پس همین فرمول برایش صادق است، فقط به‌جای S از فرمول مساحت دایره استفاده می‌کنیم:</div>
+    <div class="formula-box">حجم استوانه = π × r² × h</div>
+
+    <div class="check-q" data-qid="ex1">
+      <div>اگر مساحت قاعدهٔ منشوری <b>۱۵</b> و ارتفاع آن <b>۴</b> باشد، حجم چقدر است؟ <span class="bloom-tag bloom-apply">کاربرد</span></div>
+      <div class="opt-list">
+        <div class="opt-item" data-val="19">۱۹</div>
+        <div class="opt-item" data-val="60">۶۰</div>
+        <div class="opt-item" data-val="11">۱۱</div>
+      </div>
     </div>
-
-    <!-- ===== صفحه آزمون ===== -->
-    <div id="exam-screen">
-        <button id="close-exam-btn">✕ بازگشت</button>
-        <div id="exam-box">
-            <h2>📝 آزمون بخش دوم</h2>
-            <div class="exam-sub" id="exam-progress">سوال ۱ از ۵</div>
-            <div id="exam-timer">⏱️ ۱۲:۰۰</div>
-            <div id="exam-question-area"></div>
-            <div id="exam-nav">
-                <button class="nav-btn primary" id="exam-confirm-btn" disabled>✅ تایید</button>
-            </div>
-            <div id="exam-result">
-                <div class="score" id="exam-score">۰ از ۵</div>
-                <div class="msg" id="exam-msg"></div>
-                <button class="next-btn" id="goto-section3-btn">🚀 رفتن به بخش سوم</button>
-            </div>
-        </div>
+    <div class="check-q" data-qid="ex2">
+      <div>چرا فرمول محاسبهٔ حجم منشور و استوانه هر دو به‌صورت S×h است؟ <span class="bloom-tag bloom-understand">فهمیدن</span></div>
+      <div class="opt-list">
+        <div class="opt-item" data-val="a">چون هر دو گرد هستند</div>
+        <div class="opt-item" data-val="b">چون هر دو دو قاعدهٔ مساوی و موازی دارند</div>
+        <div class="opt-item" data-val="c">چون هر دو یک رأس مشترک دارند</div>
+      </div>
     </div>
+    <button class="btn btn-primary" id="explain-to-elaborate-btn" disabled>🧩 برویم به مرحلهٔ بسط</button>
+  </div>
 
-    <!-- ===== مودال تأیید پاسخ ===== -->
-    <div id="confirm-modal">
-        <div class="modal-box">
-            <span class="icon" id="modal-icon">✅</span>
-            <div class="title" id="modal-title">پاسخ درست!</div>
-            <div class="desc" id="modal-desc">توضیح پاسخ</div>
-            <div class="btn-row">
-                <button class="btn-primary" id="modal-next-btn">سوال بعدی</button>
-            </div>
-        </div>
+  <!-- ================= ELABORATE ================= -->
+  <div class="panel" id="panel-elaborate" style="display:none">
+    <span class="stage-badge elaborate">🧩 بسط</span>
+    <h2>قاعده‌های ترکیبی: جمع کنیم یا کم کنیم؟ 🧩</h2>
+    <p>گاهی قاعدهٔ منشور از چند شکل ساده تشکیل شده. باید تشخیص بدهی که برای پیدا کردن مساحت قاعده، باید بخش‌ها را <span class="highlight">جمع</span> یا <span class="highlight-red">کم</span> کنی.</p>
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="tog-hollow">🔲 قاعدهٔ توخالی</button>
+      <button class="toggle-btn" id="tog-combined">➕ قاعدهٔ ترکیبی</button>
     </div>
+    <div id="three-container-elaborate" class="three-view"></div>
+    <div class="hint" id="elaborate-desc"></div>
+    <div id="criteria-wrap"></div>
+    <div class="hint" id="elaborate-summary" style="display:none"></div>
+    <button class="btn btn-primary" id="elaborate-to-evaluate-btn" disabled>📝 برویم به مرحلهٔ سنجش</button>
+  </div>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-            }
-        }
-    </script>
+  <!-- ================= EVALUATE ================= -->
+  <div class="panel" id="panel-evaluate" style="display:none">
+    <span class="stage-badge evaluate">📝 سنجش پایانی</span>
+    <div class="eval-progress" id="eval-progress">سؤال ۱ از ۶</div>
+    <div id="eval-question-area"></div>
+    <button class="btn btn-primary" id="eval-confirm-btn" disabled>تأیید پاسخ ✅</button>
+  </div>
 
-    <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcgI87HU8z5UcZdgqrjvMaNg66SW5HdNPq8tyXpmkxMNXpK_ulh85Lm5BHhKI56522oA/exec';
+  <!-- ================= FINAL ================= -->
+  <div class="panel" id="panel-final" style="display:none">
+    <div id="final-panel">
+      <h2>🎉 بخش دوم تمام شد!</h2>
+      <div class="score-big" id="final-score">۰ از ۶</div>
+      <div id="final-msg"></div>
+      <div class="bloom-report" id="bloom-report"></div>
+      <button class="btn btn-primary" id="goto-section2-btn">🚀 رفتن به بخش سوم</button>
+      <button class="btn btn-outline" id="back-to-panel-btn">↩ بازگشت به منو</button>
+    </div>
+  </div>
 
-        // ===== اسلایدها =====
-        const slides = [
-            {
-                id: 0,
-                title: '📏 ارتفاع منشور چیست؟',
-                body: `<p>ارتفاع منشور، <span class="highlight">فاصلهٔ دو قاعده</span> است.</p>
-                    <p>با تغییر ارتفاع، شکل ظاهری منشور تغییر می‌کند، ولی قاعده‌ها همان‌طور باقی می‌مانند.</p>
-                    <div class="box-red"><span class="highlight-red">🔴 قاعده‌ها</span> — با رنگ قرمز</div>
-                    <div class="box-blue"><span class="highlight-blue">🔵 سطح جانبی</span> — با رنگ آبی</div>
-                    <p style="font-size:14px; color:rgba(255,255,255,0.3); margin-top:2px;">🖱️ اسلایدر را حرکت دهید</p>`,
-                shapeType: 'height',
-                showSlider: true
-            },
-            {
-                id: 1,
-                title: '📐 فرمول حجم منشور',
-                body: `<p>حجم منشور برابر است با:</p>
-                    <div class="box-formula">V = S × h</div>
-                    <div style="color:rgba(255,255,255,0.5); font-size:15px; text-align:center; margin:4px 0;">
-                    <span class="highlight">V</span> = حجم &nbsp;|&nbsp; <span class="highlight-red">S</span> = مساحت قاعده &nbsp;|&nbsp; <span class="highlight-blue">h</span> = ارتفاع</div>
-                    <div class="box-red"><span class="highlight-red">🔴 قاعده</span> — مساحت قاعده را محاسبه می‌کنیم</div>
-                    <div class="box-blue"><span class="highlight-blue">🔵 ارتفاع</span> — فاصلهٔ دو قاعده</div>`,
-                shapeType: 'formula',
-                showSlider: false
-            },
-            {
-                id: 2,
-                title: '🌟 منشور با قاعده ستاره',
-                body: `<p>قاعده منشور می‌تواند <span class="highlight">هر شکلی</span> باشد!</p>
-                    <p>برای محاسبه حجم، فقط به <span class="highlight-red">مساحت قاعده</span> و <span class="highlight-blue">ارتفاع</span> نیاز داریم.</p>
-                    <div class="box-red"><span class="highlight-red">🔴 مساحت قاعده = 24</span></div>
-                    <div class="box-blue"><span class="highlight-blue">🔵 ارتفاع = 4</span></div>
-                    <div class="box-green"><span class="highlight-green">🟢 حجم = 24 × 4 = 96</span></div>`,
-                shapeType: 'star',
-                showSlider: false
-            },
-            {
-                id: 3,
-                title: '🔲 قاعده توخالی',
-                body: `<p>گاهی قاعده منشور <span class="highlight">توخالی</span> است.</p>
-                    <p>قاعده یک مربع به ضلع <span class="highlight">4</span> با دایره به شعاع <span class="highlight-red">1</span> خالی شده.</p>
-                    <div class="box-red"><span class="highlight-red">❶ مساحت مربع:</span><br><span class="num">4 × 4 = 16</span></div>
-                    <div class="box-blue"><span class="highlight-blue">❷ مساحت دایره:</span><br><span class="num">3 × 1 × 1 = 3</span></div>
-                    <div class="box-green"><span class="highlight-green">❸ مساحت قاعده:</span><br><span class="num">16 − 3 = 13</span></div>
-                    <div class="box-formula">حجم = 13 × 4 = <span style="color:#00ff88;">52</span></div>`,
-                shapeType: 'hollow',
-                showSlider: false
-            },
-            {
-                id: 4,
-                title: '🧩 قاعده ترکیبی (مربع + نیم‌دایره)',
-                body: `<p>قاعده منشور از <span class="highlight">چند شکل</span> تشکیل شده است.</p>
-                    <div class="box-red"><span class="highlight-red">❶ مساحت مربع:</span><br><span class="num">8 × 8 = 64</span></div>
-                    <div class="box-blue"><span class="highlight-blue">❷ مساحت نیم‌دایره:</span><br>شعاع = 4<br><span class="num">3 × 4 × 4 ÷ 2 = 24</span></div>
-                    <div class="box-green"><span class="highlight-green">❸ مساحت قاعده:</span><br><span class="num">64 + 24 = 88</span></div>
-                    <div class="box-formula">حجم = 88 × 10 = <span style="color:#00ff88;">880</span></div>`,
-                shapeType: 'combined',
-                showSlider: false
-            }
-        ];
+</div>
 
-        // ===== سوالات آزمون =====
-        const examQuestions = [
-            { id: 0, text: 'یک منبع آب به شکل استوانه است. شعاع قاعده آن 2 متر و ارتفاع آن 5 متر است. حجم آن چند متر مکعب است؟ (پی=3)', options: ['۱۰', '۳۰', '۶۰', '۹۰'], correct: 2, explanation: 'حجم = (۳ × ۲ × ۲) × ۵ = ۶۰ متر مکعب.' },
-            { id: 1, text: 'قاعده منشور مثلث قائم‌الزاویه با ضلع‌های قائمه 3 و 4 و ارتفاع 5، حجم آن چند است؟', options: ['۱۵', '۳۰', '۴۵', '۶۰'], correct: 1, explanation: 'مساحت قاعده = (۳ × ۴) ÷ ۲ = ۶. حجم = ۶ × ۵ = ۳۰.' },
-            { id: 2, text: 'مکعب به ضلع 4، حجم آن چند است؟', options: ['۱۶', '۳۲', '۴۸', '۶۴'], correct: 3, explanation: 'حجم مکعب = ۴ × ۴ × ۴ = ۶۴.' },
-            { id: 3, text: 'منشور با قاعده ذوزنقه (قاعده‌ها 4 و 6 و ارتفاع 3) و ارتفاع منشور 8، حجم آن چند است؟', options: ['۶۰', '۹۰', '۱۲۰', '۱۵۰'], correct: 2, explanation: 'مساحت ذوزنقه = (۴+۶)×۳÷۲ = ۱۵. حجم = ۱۵×۸ = ۱۲۰.' },
-            { id: 4, text: 'منشور با قاعده لوزی (قطرهای 6 و 8) و ارتفاع 10، حجم آن چند است؟', options: ['۱۲۰', '۱۸۰', '۲۴۰', '۳۰۰'], correct: 2, explanation: 'مساحت لوزی = (۶×۸)÷۲ = ۲۴. حجم = ۲۴×۱۰ = ۲۴۰.' }
-        ];
+<div id="site-footer">
+  <div class="fline"></div>
+  <div class="fname">👨‍🏫 مدرس: بگنج مرادی</div>
+  <div class="fsub">🌾 طراحی و توسعه: بگنج مرادی — استان گلستان</div>
+</div>
 
-        // ===== متغیرها =====
-        let currentSlide = 0;
-        let currentExamIndex = 0;
-        let examSubmitted = false;
-        let examLocked = false;
-        let userAnswers = {};
-        let timerInterval = null;
-        let timeLeft = 720;
-        let currentHeight = 2.5;
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        // ===== THREE.JS =====
-        let scene, camera, renderer, controls;
-        let currentGroup = null;
-        let animationId = null;
-        const radius = 1.3;
-        const starRadius = 1.4;
-        const squareSize = 2.6;
-        const holeRadius = 0.7;
-        const combinedSize = 3.0;
-        const prismHeight = 3.8;
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzcgI87HU8z5UcZdgqrjvMaNg66SW5HdNPq8tyXpmkxMNXpK_ulh85Lm5BHhKI56522oA/exec';
+const userId = localStorage.getItem('math9_userId');
+const userName = localStorage.getItem('math9_name') || 'نامشخص';
+const userClass = localStorage.getItem('math9_class') || 'نامشخص';
+const PKEY = 'math9_ch2_progress';
 
-        function initThree() {
-            const container = document.getElementById('three-container');
-            const rect = container.getBoundingClientRect();
-            const width = rect.width || 400;
-            const height = rect.height || 300;
+/* ============================================================
+   حالت/پیشرفت — ذخیره و بازیابی
+   ============================================================ */
+const STAGES = ['engage','explore','explain','elaborate','evaluate','final'];
+let state = loadProgress();
 
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0a0a1a);
-            camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 100);
-            camera.position.set(4.5, 3, 6.5);
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(width, height);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            container.appendChild(renderer.domElement);
-            controls = new OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.08;
-            controls.target.set(0, 0, 0);
-            controls.update();
+function defaultState() {
+  return {
+    stage: 'engage',
+    engage: { idx:0, correct:0, total:0, done:false, order: shuffle([0,1,2]), viewing:'a' },
+    explore: { valuesTried:{}, attempts:0, correctGuesses:0, totalGuesses:0 },
+    explain: { answered:{}, correct:0, total:0 },
+    elaborate: { checks:{}, correct:0, total:0, done:false },
+    evaluate: { idx:0, answers:{}, submitted:false },
+    timeSpent: { engage:0, explore:0, explain:0, elaborate:0, evaluate:0 },
+    startedAt: Date.now(),
+    lastActiveAt: Date.now()
+  };
+}
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(PKEY);
+    if (raw) { const s = JSON.parse(raw); return Object.assign(defaultState(), s); }
+  } catch(e){}
+  return defaultState();
+}
+let stageEnteredAt = Date.now();
+function saveProgress(sync) {
+  const now = Date.now();
+  const cur = state.stage;
+  if (state.timeSpent[cur] !== undefined) state.timeSpent[cur] += Math.round((now - stageEnteredAt)/1000);
+  stageEnteredAt = now;
+  state.lastActiveAt = now;
+  try { localStorage.setItem(PKEY, JSON.stringify(state)); } catch(e){}
+  if (sync) syncProgressToServer();
+}
+function syncProgressToServer() {
+  if (!userId) return;
+  try {
+    fetch(SCRIPT_URL, {
+      method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, keepalive:true,
+      body: JSON.stringify({ action:'saveProgress', userId, name:userName, class:userClass, chapter:2, progress: state })
+    }).catch(()=>{});
+  } catch(e){}
+}
+function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
 
-            const ambient = new THREE.AmbientLight(0xffffff, 0.5);
-            scene.add(ambient);
-            const mainLight = new THREE.DirectionalLight(0xffeedd, 1.0);
-            mainLight.position.set(5, 8, 6);
-            mainLight.castShadow = true;
-            scene.add(mainLight);
-            const fillLight = new THREE.DirectionalLight(0x4488ff, 0.3);
-            fillLight.position.set(-4, 2, 5);
-            scene.add(fillLight);
-            const backLight = new THREE.DirectionalLight(0x88aaff, 0.2);
-            backLight.position.set(-2, 0, -6);
-            scene.add(backLight);
+/* ============================================================
+   سه‌بعدی — صحنه مشترک با چند container
+   ============================================================ */
+let renderers = {};
+function makeScene(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return null;
+  try {
+    const rect = container.getBoundingClientRect();
+    const width = rect.width || 300, height = rect.height || 200;
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1c0d0f);
+    const camera = new THREE.PerspectiveCamera(35, width/height, 0.1, 100);
+    camera.position.set(4,3,6);
+    const renderer = new THREE.WebGLRenderer({ antialias:true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+    container.appendChild(renderer.domElement);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true; controls.dampingFactor = 0.08;
+    scene.add(new THREE.AmbientLight(0xffffff,0.55));
+    const main = new THREE.DirectionalLight(0xffeedd,1.0); main.position.set(5,8,6); scene.add(main);
+    const fill = new THREE.DirectionalLight(0x4488ff,0.3); fill.position.set(-4,2,5); scene.add(fill);
+    const obj = { scene, camera, renderer, controls, group:null };
+    (function animate(){ obj._raf = requestAnimationFrame(animate); controls.update(); renderer.render(scene,camera); })();
+    new ResizeObserver(()=>{ const r = container.getBoundingClientRect(); if (r.width>0 && r.height>0){ renderer.setSize(r.width,r.height); camera.aspect=r.width/r.height; camera.updateProjectionMatrix(); } }).observe(container);
+    renderers[containerId] = obj;
+    return obj;
+  } catch(e) {
+    const fb = document.getElementById('three-fallback');
+    if (fb) fb.style.display = 'block';
+    return null;
+  }
+}
+function setGroup(sceneObj, group) {
+  if (!sceneObj) return;
+  if (sceneObj.group) sceneObj.scene.remove(sceneObj.group);
+  group.scale.set(0.85,0.85,0.85); group.rotation.x = 0.15; group.rotation.y = 0.4;
+  sceneObj.scene.add(group); sceneObj.group = group;
+  sceneObj.camera.position.set(4,3,6); sceneObj.controls.target.set(0,0,0); sceneObj.controls.update();
+}
+function edgesFor(geo, color=0xd9a441, op=0.45) {
+  return new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({color, transparent:true, opacity:op}));
+}
+function createPrism(sides, radius, height, bodyColor, baseColor) {
+  const group = new THREE.Group();
+  const bodyGeo = new THREE.CylinderGeometry(radius, radius, height, sides, 1, true);
+  const bodyMat = new THREE.MeshStandardMaterial({ color:bodyColor, roughness:0.3, metalness:0.05, transparent:true, opacity:0.85, side:THREE.DoubleSide });
+  group.add(new THREE.Mesh(bodyGeo, bodyMat));
+  const shape = new THREE.Shape(); const step = (Math.PI*2)/sides;
+  for (let i=0;i<=sides;i++){ const a=i*step - Math.PI/2; const x=radius*Math.cos(a), y=radius*Math.sin(a); i===0?shape.moveTo(x,y):shape.lineTo(x,y); }
+  const baseGeo = new THREE.ShapeGeometry(shape);
+  const baseMat = new THREE.MeshStandardMaterial({ color:baseColor, roughness:0.1, transparent:true, opacity:0.95, side:THREE.DoubleSide });
+  const top = new THREE.Mesh(baseGeo, baseMat); top.rotation.x=-Math.PI/2; top.position.y=height/2; group.add(top);
+  const bot = new THREE.Mesh(baseGeo.clone(), baseMat); bot.rotation.x=-Math.PI/2; bot.position.y=-height/2; group.add(bot);
+  const fullGeo = new THREE.CylinderGeometry(radius, radius, height, sides, 1, false);
+  group.add(edgesFor(fullGeo));
+  return group;
+}
+function createCone(sides, radius, height, color) {
+  const group = new THREE.Group();
+  const geo = new THREE.ConeGeometry(radius, height, sides);
+  const mat = new THREE.MeshStandardMaterial({ color, roughness:0.3, metalness:0.05, transparent:true, opacity:0.85, side:THREE.DoubleSide });
+  group.add(new THREE.Mesh(geo, mat));
+  group.add(edgesFor(geo, 0xd9a441, 0.3));
+  return group;
+}
+function createBlob(seed) {
+  const geo = new THREE.IcosahedronGeometry(1, 1);
+  const pos = geo.attributes.position;
+  let s = seed;
+  function rnd(){ s = (s*9301+49297) % 233280; return s/233280; }
+  for (let i=0;i<pos.count;i++){
+    const v = new THREE.Vector3(pos.getX(i),pos.getY(i),pos.getZ(i));
+    const n = v.clone().normalize();
+    const disp = 0.75 + rnd()*0.5;
+    v.copy(n.multiplyScalar(disp));
+    pos.setXYZ(i, v.x, v.y, v.z);
+  }
+  geo.computeVertexNormals();
+  const mat = new THREE.MeshStandardMaterial({ color:0x8a7860, roughness:0.85, metalness:0.0, flatShading:true });
+  const group = new THREE.Group();
+  group.add(new THREE.Mesh(geo, mat));
+  return group;
+}
+function createCube() {
+  const group = new THREE.Group();
+  const geo = new THREE.BoxGeometry(1.6,1.6,1.6);
+  const mat = new THREE.MeshStandardMaterial({ color:0x2ec4b6, roughness:0.3, transparent:true, opacity:0.85 });
+  group.add(new THREE.Mesh(geo, mat)); group.add(edgesFor(geo));
+  return group;
+}
+function createSphere() {
+  const group = new THREE.Group();
+  const geo = new THREE.SphereGeometry(1,48,32);
+  const mat = new THREE.MeshStandardMaterial({ color:0xe84393, roughness:0.2, transparent:true, opacity:0.85 });
+  group.add(new THREE.Mesh(geo, mat)); group.add(edgesFor(geo,0xd9a441,0.15));
+  return group;
+}
+function createCylinderP(radius, height, color) {
+  const group = new THREE.Group();
+  const geo = new THREE.CylinderGeometry(radius, radius, height, 40, 1, true);
+  const mat = new THREE.MeshStandardMaterial({ color, roughness:0.3, metalness:0.05, transparent:true, opacity:0.85, side:THREE.DoubleSide });
+  group.add(new THREE.Mesh(geo, mat));
+  const capGeo = new THREE.CircleGeometry(radius, 40);
+  const capMat = new THREE.MeshStandardMaterial({ color:0xff6b6b, roughness:0.1, transparent:true, opacity:0.95, side:THREE.DoubleSide });
+  const top = new THREE.Mesh(capGeo, capMat); top.rotation.x=-Math.PI/2; top.position.y=height/2; group.add(top);
+  const bot = new THREE.Mesh(capGeo.clone(), capMat); bot.rotation.x=-Math.PI/2; bot.position.y=-height/2; group.add(bot);
+  const fullGeo = new THREE.CylinderGeometry(radius, radius, height, 40, 1, false);
+  group.add(edgesFor(fullGeo));
+  return group;
+}
+function createStick(seed) {
+  const group = new THREE.Group();
+  const geo = new THREE.CylinderGeometry(0.28,0.36,2.2,8,4);
+  const pos = geo.attributes.position; let s=seed;
+  function rnd(){ s=(s*9301+49297)%233280; return s/233280; }
+  for (let i=0;i<pos.count;i++){ pos.setX(i,pos.getX(i)+(rnd()-0.5)*0.18); pos.setZ(i,pos.getZ(i)+(rnd()-0.5)*0.18); }
+  geo.computeVertexNormals();
+  const mat = new THREE.MeshStandardMaterial({ color:0x8a6a45, roughness:0.9, flatShading:true });
+  group.add(new THREE.Mesh(geo, mat));
+  return group;
+}
+function createSquarePrismByH(height) {
+  return createPrism(4, 1.5, height, 0x2ec4b6, 0xff6b6b);
+}
+function createHollowPrism(squareSize, holeRadius, height, bodyColor) {
+  const s = squareSize/2;
+  const shape = new THREE.Shape();
+  shape.moveTo(-s,-s); shape.lineTo(s,-s); shape.lineTo(s,s); shape.lineTo(-s,s); shape.lineTo(-s,-s);
+  const hole = new THREE.Path();
+  hole.absarc(0,0,holeRadius,0,Math.PI*2,true);
+  shape.holes.push(hole);
+  const geo = new THREE.ExtrudeGeometry(shape, { depth:height, bevelEnabled:false, curveSegments:32 });
+  geo.rotateX(-Math.PI/2);
+  geo.center();
+  const mat = new THREE.MeshStandardMaterial({ color:bodyColor, roughness:0.3, metalness:0.05, transparent:true, opacity:0.9, side:THREE.DoubleSide });
+  const group = new THREE.Group();
+  group.add(new THREE.Mesh(geo, mat));
+  group.add(edgesFor(geo, 0xd9a441, 0.35));
+  return group;
+}
+function createCombinedPrism(squareSize, height, bodyColor) {
+  const s = squareSize/2;
+  const r = s;
+  const shape = new THREE.Shape();
+  shape.moveTo(-s,-s); shape.lineTo(s,-s); shape.lineTo(s,s);
+  shape.absarc(0, s, r, 0, Math.PI, false);
+  shape.lineTo(-s,-s);
+  const geo = new THREE.ExtrudeGeometry(shape, { depth:height, bevelEnabled:false, curveSegments:32 });
+  geo.rotateX(-Math.PI/2);
+  geo.center();
+  const mat = new THREE.MeshStandardMaterial({ color:bodyColor, roughness:0.3, metalness:0.05, transparent:true, opacity:0.9, side:THREE.DoubleSide });
+  const group = new THREE.Group();
+  group.add(new THREE.Mesh(geo, mat));
+  group.add(edgesFor(geo, 0xd9a441, 0.35));
+  return group;
+}
 
-            animate();
-            const resizeObserver = new ResizeObserver(() => {
-                const r = container.getBoundingClientRect();
-                if (r.width > 0 && r.height > 0) {
-                    renderer.setSize(r.width, r.height);
-                    camera.aspect = r.width / r.height;
-                    camera.updateProjectionMatrix();
-                }
-            });
-            resizeObserver.observe(container);
-        }
+/* ============================================================
+   نمایش/پنهان کردن مراحل
+   ============================================================ */
+const panels = { engage:'panel-engage', explore:'panel-explore', explain:'panel-explain', elaborate:'panel-elaborate', evaluate:'panel-evaluate', final:'panel-final' };
+function showStage(stage) {
+  saveProgress(true);
+  Object.values(panels).forEach(id => document.getElementById(id).style.display = 'none');
+  document.getElementById(panels[stage]).style.display = 'block';
+  document.querySelectorAll('.stage-dot').forEach(dot => {
+    const s = dot.dataset.stage;
+    dot.classList.remove('active','done');
+    const order = ['engage','explore','explain','elaborate','evaluate'];
+    if (s === stage) dot.classList.add('active');
+    else if (order.indexOf(s) < order.indexOf(stage) || stage === 'final') dot.classList.add('done');
+  });
+  state.stage = stage;
+  stageEnteredAt = Date.now();
+  saveProgress(false);
+  window.scrollTo({top:0, behavior:'smooth'});
+  if (stage === 'engage') initEngage();
+  if (stage === 'explore') initExplore();
+  if (stage === 'explain') initExplain();
+  if (stage === 'elaborate') initElaborate();
+  if (stage === 'evaluate') initEvaluate();
+  if (stage === 'final') initFinal();
+}
 
-        function animate() {
-            animationId = requestAnimationFrame(animate);
-            if (controls) controls.update();
-            if (renderer && scene && camera) renderer.render(scene, camera);
-        }
+/* ============================================================
+   ENGAGE — معمای دو مخزن آب
+   ============================================================ */
+const PI_T = 3; // پی به روش کتاب درسی
+const tankRounds = [
+  { a:{r:2,h:6}, b:{r:3,h:3} },   // B بزرگتر است (۷۲ در برابر ۸۱)
+  { a:{r:2,h:6}, b:{r:4,h:1.5} }, // با هم برابرند! (۷۲ = ۷۲)
+  { a:{r:3,h:2}, b:{r:1,h:6} }    // A بزرگتر است (۵۴ در برابر ۱۸)
+];
+function tankVolume(t){ return Math.round(PI_T * t.r * t.r * t.h * 100)/100; }
+function tankAnswer(round){
+  const va = tankVolume(round.a), vb = tankVolume(round.b);
+  if (Math.abs(va-vb) < 0.001) return 'eq';
+  return va > vb ? 'a' : 'b';
+}
+function initEngage() {
+  document.getElementById('engage-feedback').className = 'feedback-box';
+  document.getElementById('engage-feedback').textContent = '';
+  document.getElementById('engage-next-btn').style.display = 'none';
+  document.getElementById('engage-to-explore-btn').style.display = 'none';
+  document.getElementById('btn-tank-a').disabled = false;
+  document.getElementById('btn-tank-b').disabled = false;
+  document.getElementById('btn-tank-eq').disabled = false;
+  document.getElementById('engage-score').textContent = `${state.engage.correct} از ${state.engage.total}`;
+  if (!renderers['three-container']) makeScene('three-container');
+  if (state.engage.idx >= state.engage.order.length) {
+    document.getElementById('engage-feedback').className = 'feedback-box correct';
+    document.getElementById('engage-feedback').textContent = 'خوب حدس زدی یا نزدیک بود! حالا وقت کاوش عمیق‌تر است تا فرمول را خودت پیدا کنی.';
+    document.getElementById('btn-tank-a').disabled = true; document.getElementById('btn-tank-b').disabled = true; document.getElementById('btn-tank-eq').disabled = true;
+    document.getElementById('engage-to-explore-btn').style.display = 'block';
+    return;
+  }
+  state.engage.viewing = 'a';
+  renderTank();
+}
+function renderTank(){
+  const round = tankRounds[state.engage.order[state.engage.idx]];
+  const t = state.engage.viewing === 'a' ? round.a : round.b;
+  setGroup(renderers['three-container'], createCylinderP(t.r*0.55, t.h*0.55, state.engage.viewing==='a' ? 0x2ec4b6 : 0xe2703a));
+  document.getElementById('tog-tank-a').classList.toggle('active', state.engage.viewing==='a');
+  document.getElementById('tog-tank-b').classList.toggle('active', state.engage.viewing==='b');
+  document.getElementById('tank-dims').textContent = `مخزن ${state.engage.viewing==='a'?'A':'B'}: شعاع = ${round[state.engage.viewing].r} متر، ارتفاع = ${round[state.engage.viewing].h} متر`;
+}
+document.getElementById('tog-tank-a').addEventListener('click', ()=>{ state.engage.viewing='a'; renderTank(); });
+document.getElementById('tog-tank-b').addEventListener('click', ()=>{ state.engage.viewing='b'; renderTank(); });
+function answerEngage(guess) {
+  const round = tankRounds[state.engage.order[state.engage.idx]];
+  const correctAns = tankAnswer(round);
+  const correct = guess === correctAns;
+  state.engage.total++;
+  if (correct) state.engage.correct++;
+  document.getElementById('engage-score').textContent = `${state.engage.correct} از ${state.engage.total}`;
+  const va = tankVolume(round.a), vb = tankVolume(round.b);
+  const fb = document.getElementById('engage-feedback');
+  fb.className = 'feedback-box ' + (correct ? 'correct' : 'wrong');
+  const resultText = correctAns === 'eq' ? 'دو مخزن دقیقاً حجم برابر دارند!' : `مخزن ${correctAns==='a'?'A':'B'} گنجایش بیشتری دارد.`;
+  fb.textContent = (correct ? '✅ آفرین، درست حدس زدی! ' : '❌ حدس نادرست. ') + `${resultText} (تقریبی: A≈${va}، B≈${vb} — با فرمولی که در ادامه یاد می‌گیریم دقیقش را حساب می‌کنیم)`;
+  document.getElementById('btn-tank-a').disabled = true; document.getElementById('btn-tank-b').disabled = true; document.getElementById('btn-tank-eq').disabled = true;
+  document.getElementById('engage-next-btn').style.display = 'block';
+  saveProgress(false);
+}
+document.getElementById('btn-tank-a').addEventListener('click', ()=>answerEngage('a'));
+document.getElementById('btn-tank-b').addEventListener('click', ()=>answerEngage('b'));
+document.getElementById('btn-tank-eq').addEventListener('click', ()=>answerEngage('eq'));
+document.getElementById('engage-next-btn').addEventListener('click', ()=>{
+  state.engage.idx++;
+  document.getElementById('engage-next-btn').style.display = 'none';
+  document.getElementById('engage-feedback').className = 'feedback-box';
+  initEngage();
+});
+document.getElementById('engage-to-explore-btn').addEventListener('click', ()=>showStage('explore'));
 
-        // ===== توابع ساخت اشکال =====
-        function createCylinder(height) {
-            const group = new THREE.Group();
-            const r = radius;
-            const h = height;
-            const bodyGeo = new THREE.CylinderGeometry(r, r, h, 48, 1, true);
-            const bodyMat = new THREE.MeshStandardMaterial({ color: 0x4a6cf7, roughness: 0.3, metalness: 0.05, transparent: true, opacity: 0.85, side: THREE.DoubleSide });
-            const body = new THREE.Mesh(bodyGeo, bodyMat);
-            body.castShadow = true;
-            group.add(body);
+/* ============================================================
+   EXPLORE
+   ============================================================ */
+function initExplore() {
+  if (!renderers['three-container-explore']) makeScene('three-container-explore');
+  const h = parseInt(document.getElementById('h-slider').value,10);
+  updateExploreShape(h);
+  renderDiscoveryTable();
+  updateExploreUnlock();
+}
+function toFa(num){ return String(num).replace(/[0-9]/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]); }
+const EXPLORE_S = 4; // مساحت قاعدهٔ مربعِ ثابت (ضلع = ۲)
+function updateExploreShape(h) {
+  document.getElementById('h-val').textContent = toFa(h);
+  document.getElementById('h-label').textContent = toFa(h);
+  setGroup(renderers['three-container-explore'], createSquarePrismByH(h*0.6));
+  document.getElementById('guess-volume').value = '';
+  document.getElementById('guess-volume').className = '';
+  document.getElementById('explore-feedback').className = 'feedback-box';
+  document.getElementById('explore-feedback').textContent = '';
+}
+document.getElementById('h-slider').addEventListener('input', (e)=> updateExploreShape(parseInt(e.target.value,10)));
+document.getElementById('check-guess-btn').addEventListener('click', ()=>{
+  const h = parseInt(document.getElementById('h-slider').value,10);
+  const gV = parseInt(document.getElementById('guess-volume').value,10);
+  const rV = EXPLORE_S * h;
+  const okV = gV === rV;
+  document.getElementById('guess-volume').className = okV?'ok':'bad';
+  state.explore.attempts++;
+  state.explore.totalGuesses += 1;
+  state.explore.correctGuesses += okV ? 1 : 0;
+  state.explore.valuesTried[h] = { s:EXPLORE_S, v:rV };
+  const fb = document.getElementById('explore-feedback');
+  fb.className = 'feedback-box ' + (okV?'correct':'wrong');
+  fb.textContent = okV ? `✅ دقیقاً درست! حجم = ۴ × ${toFa(h)} = ${toFa(rV)}` : `مقدار واقعی: حجم = ۴ × ${toFa(h)} = ${toFa(rV)}`;
+  renderDiscoveryTable();
+  updateExploreUnlock();
+  saveProgress(false);
+});
+function renderDiscoveryTable(){
+  const table = document.getElementById('discovery-table');
+  table.innerHTML = '<tr><th>ارتفاع (h)</th><th>مساحت قاعده (S)</th><th>حجم (S×h)</th></tr>';
+  Object.keys(state.explore.valuesTried).sort((a,b)=>a-b).forEach(h=>{
+    const v = state.explore.valuesTried[h];
+    const tr = document.createElement('tr'); tr.className='filled';
+    tr.innerHTML = `<td>${toFa(h)}</td><td>${toFa(v.s)}</td><td>${toFa(v.v)}</td>`;
+    table.appendChild(tr);
+  });
+}
+function updateExploreUnlock(){
+  const triedCount = Object.keys(state.explore.valuesTried).length;
+  document.getElementById('explore-to-explain-btn').disabled = triedCount < 3;
+}
+document.getElementById('explore-to-explain-btn').addEventListener('click', ()=>showStage('explain'));
 
-            const baseMat = new THREE.MeshStandardMaterial({ color: 0xff6b6b, roughness: 0.1, metalness: 0.0, transparent: true, opacity: 0.95, side: THREE.DoubleSide, emissive: new THREE.Color(0xff6b6b).multiplyScalar(0.15), emissiveIntensity: 0.2 });
-            const topGeo = new THREE.CircleGeometry(r, 48);
-            const topBase = new THREE.Mesh(topGeo, baseMat);
-            topBase.rotation.x = -Math.PI / 2;
-            topBase.position.y = h / 2;
-            group.add(topBase);
-            const bottomBase = new THREE.Mesh(topGeo.clone(), baseMat);
-            bottomBase.rotation.x = -Math.PI / 2;
-            bottomBase.position.y = -h / 2;
-            group.add(bottomBase);
-
-            const fullGeo = new THREE.CylinderGeometry(r, r, h, 48, 1, false);
-            const edges = new THREE.EdgesGeometry(fullGeo);
-            const edgeMat = new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.5 });
-            group.add(new THREE.LineSegments(edges, edgeMat));
-
-            const dashMat = new THREE.LineDashedMaterial({ color: 0xffd700, dashSize: 0.06, gapSize: 0.05, transparent: true, opacity: 0.35 });
-            const pointsLeft = [new THREE.Vector3(-r * 1.5, -h / 2, 0), new THREE.Vector3(-r * 1.5, h / 2, 0)];
-            const geoLeft = new THREE.BufferGeometry().setFromPoints(pointsLeft);
-            const lineLeft = new THREE.Line(geoLeft, dashMat);
-            lineLeft.computeLineDistances();
-            group.add(lineLeft);
-
-            const arrowColor = 0xffd700;
-            const arrowDown = new THREE.ArrowHelper(new THREE.Vector3(0, -1, 0), new THREE.Vector3(-r * 1.5, h / 2, 0), 0.25, arrowColor, 0.12, 0.08);
-            group.add(arrowDown);
-            const arrowUp = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(-r * 1.5, -h / 2, 0), 0.25, arrowColor, 0.12, 0.08);
-            group.add(arrowUp);
-
-            const labelCanvas = document.createElement('canvas');
-            labelCanvas.width = 120;
-            labelCanvas.height = 40;
-            const ctx = labelCanvas.getContext('2d');
-            ctx.clearRect(0, 0, 120, 40);
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.font = 'bold 22px Vazirmatn, Arial, sans-serif';
-            ctx.fillStyle = '#ffd700';
-            ctx.shadowColor = 'rgba(0,0,0,0.8)';
-            ctx.shadowBlur = 10;
-            ctx.fillText('ارتفاع', 60, 22);
-            const texture = new THREE.CanvasTexture(labelCanvas);
-            texture.needsUpdate = true;
-            const labelMat = new THREE.SpriteMaterial({ map: texture, transparent: true, depthTest: false, depthWrite: false, sizeAttenuation: true });
-            const label = new THREE.Sprite(labelMat);
-            label.scale.set(0.7, 0.25, 1);
-            label.position.set(-r * 2.1, 0, 0);
-            group.add(label);
-
-            group.position.y = 0;
-            group.rotation.x = 0.1;
-            group.rotation.y = 0.4;
-            return group;
-        }
-
-        function createPrism(sides, color, baseColor, h) {
-            const group = new THREE.Group();
-            const r = radius;
-            const bodyGeo = new THREE.CylinderGeometry(r, r, h, sides, 1, true);
-            const bodyMat = new THREE.MeshStandardMaterial({ color, roughness: 0.3, metalness: 0.05, transparent: true, opacity: 0.85, side: THREE.DoubleSide });
-            const body = new THREE.Mesh(bodyGeo, bodyMat);
-            body.castShadow = true;
-            group.add(body);
-
-            const shape = new THREE.Shape();
-            const angleStep = (Math.PI * 2) / sides;
-            for (let i = 0; i <= sides; i++) {
-                const a = i * angleStep - Math.PI / 2;
-                const x = r * Math.cos(a);
-                const y = r * Math.sin(a);
-                i === 0 ? shape.moveTo(x, y) : shape.lineTo(x, y);
-            }
-            const baseMat = new THREE.MeshStandardMaterial({ color: baseColor, roughness: 0.1, metalness: 0.0, transparent: true, opacity: 0.95, side: THREE.DoubleSide, emissive: new THREE.Color(baseColor).multiplyScalar(0.15), emissiveIntensity: 0.2 });
-            const baseGeo = new THREE.ShapeGeometry(shape);
-            const topBase = new THREE.Mesh(baseGeo, baseMat);
-            topBase.rotation.x = -Math.PI / 2;
-            topBase.position.y = h / 2;
-            group.add(topBase);
-            const bottomBase = new THREE.Mesh(baseGeo.clone(), baseMat);
-            bottomBase.rotation.x = -Math.PI / 2;
-            bottomBase.position.y = -h / 2;
-            group.add(bottomBase);
-
-            const fullGeo = new THREE.CylinderGeometry(r, r, h, sides, 1, false);
-            const edges = new THREE.EdgesGeometry(fullGeo);
-            const edgeMat = new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.5 });
-            group.add(new THREE.LineSegments(edges, edgeMat));
-            return group;
-        }
-
-        function createStarShape() {
-            const shape = new THREE.Shape();
-            const n = 6;
-            const outerR = starRadius;
-            const innerR = starRadius * 0.5;
-            for (let i = 0; i < n * 2; i++) {
-                const radius = i % 2 === 0 ? outerR : innerR;
-                const angle = (i / (n * 2)) * Math.PI * 2 - Math.PI / 2;
-                const x = radius * Math.cos(angle);
-                const y = radius * Math.sin(angle);
-                if (i === 0) shape.moveTo(x, y);
-                else shape.lineTo(x, y);
-            }
-            shape.closePath();
-            return shape;
-        }
-
-        function createStarPrism() {
-            const group = new THREE.Group();
-            const h = 2.8;
-            const shape = createStarShape();
-            const extrudeSettings = { steps: 1, depth: h, bevelEnabled: false };
-            const bodyGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-            bodyGeo.translate(0, 0, -h / 2);
-            const bodyMat = new THREE.MeshStandardMaterial({ color: 0x4a6cf7, roughness: 0.3, metalness: 0.05, transparent: true, opacity: 0.85, side: THREE.DoubleSide });
-            const body = new THREE.Mesh(bodyGeo, bodyMat);
-            body.castShadow = true;
-            group.add(body);
-
-            const baseMat = new THREE.MeshStandardMaterial({ color: 0xff6b6b, roughness: 0.1, metalness: 0.0, transparent: true, opacity: 0.95, side: THREE.DoubleSide, emissive: new THREE.Color(0xff6b6b).multiplyScalar(0.15), emissiveIntensity: 0.2 });
-            const baseGeo = new THREE.ShapeGeometry(shape);
-            const topBase = new THREE.Mesh(baseGeo, baseMat);
-            topBase.position.z = h / 2;
-            group.add(topBase);
-            const bottomBase = new THREE.Mesh(baseGeo.clone(), baseMat);
-            bottomBase.position.z = -h / 2;
-            group.add(bottomBase);
-
-            const edges = new THREE.EdgesGeometry(bodyGeo);
-            const edgeMat = new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.5 });
-            group.add(new THREE.LineSegments(edges, edgeMat));
-
-            const canvas1 = document.createElement('canvas');
-            canvas1.width = 240;
-            canvas1.height = 55;
-            const ctx1 = canvas1.getContext('2d');
-            ctx1.clearRect(0, 0, 240, 55);
-            ctx1.textAlign = 'center';
-            ctx1.textBaseline = 'middle';
-            ctx1.font = 'bold 26px Vazirmatn, Arial, sans-serif';
-            ctx1.fillStyle = '#ff6b6b';
-            ctx1.shadowColor = 'rgba(0,0,0,0.9)';
-            ctx1.shadowBlur = 12;
-            ctx1.fillText('مساحت قاعده = 24', 120, 30);
-            const texture1 = new THREE.CanvasTexture(canvas1);
-            texture1.needsUpdate = true;
-            const labelMat1 = new THREE.SpriteMaterial({ map: texture1, transparent: true, depthTest: false, depthWrite: false, sizeAttenuation: true });
-            const label1 = new THREE.Sprite(labelMat1);
-            label1.scale.set(1.4, 0.4, 1);
-            label1.position.set(0, 0.8, h / 2 + 0.7);
-            group.add(label1);
-
-            const canvas2 = document.createElement('canvas');
-            canvas2.width = 180;
-            canvas2.height = 55;
-            const ctx2 = canvas2.getContext('2d');
-            ctx2.clearRect(0, 0, 180, 55);
-            ctx2.textAlign = 'center';
-            ctx2.textBaseline = 'middle';
-            ctx2.font = 'bold 26px Vazirmatn, Arial, sans-serif';
-            ctx2.fillStyle = '#4a6cf7';
-            ctx2.shadowColor = 'rgba(0,0,0,0.9)';
-            ctx2.shadowBlur = 12;
-            ctx2.fillText('ارتفاع = 4', 90, 30);
-            const texture2 = new THREE.CanvasTexture(canvas2);
-            texture2.needsUpdate = true;
-            const labelMat2 = new THREE.SpriteMaterial({ map: texture2, transparent: true, depthTest: false, depthWrite: false, sizeAttenuation: true });
-            const label2 = new THREE.Sprite(labelMat2);
-            label2.scale.set(1.1, 0.4, 1);
-            label2.position.set(starRadius * 1.8, 0, 0);
-            group.add(label2);
-
-            const canvas3 = document.createElement('canvas');
-            canvas3.width = 320;
-            canvas3.height = 60;
-            const ctx3 = canvas3.getContext('2d');
-            ctx3.clearRect(0, 0, 320, 60);
-            ctx3.beginPath();
-            ctx3.roundRect(5, 5, 310, 50, 12);
-            ctx3.fillStyle = 'rgba(0, 255, 136, 0.12)';
-            ctx3.fill();
-            ctx3.strokeStyle = '#00ff88';
-            ctx3.lineWidth = 2;
-            ctx3.stroke();
-            ctx3.textAlign = 'center';
-            ctx3.textBaseline = 'middle';
-            ctx3.font = 'bold 30px Vazirmatn, Arial, sans-serif';
-            ctx3.fillStyle = '#00ff88';
-            ctx3.shadowColor = 'rgba(0,0,0,0.9)';
-            ctx3.shadowBlur = 12;
-            ctx3.fillText('حجم = 24 × 4 = 96', 160, 33);
-            const texture3 = new THREE.CanvasTexture(canvas3);
-            texture3.needsUpdate = true;
-            const labelMat3 = new THREE.SpriteMaterial({ map: texture3, transparent: true, depthTest: false, depthWrite: false, sizeAttenuation: true });
-            const label3 = new THREE.Sprite(labelMat3);
-            label3.scale.set(1.7, 0.4, 1);
-            label3.position.set(0, -h / 2 - 0.8, 0);
-            group.add(label3);
-
-            group.position.y = 0;
-            group.rotation.x = 0.1;
-            group.rotation.y = 0.4;
-            return group;
-        }
-
-        function createHollowShape() {
-            const shape = new THREE.Shape();
-            const s = squareSize / 2;
-            const r = holeRadius;
-            shape.moveTo(-s, -s);
-            shape.lineTo(s, -s);
-            shape.lineTo(s, s);
-            shape.lineTo(-s, s);
-            shape.closePath();
-            const holePath = new THREE.Path();
-            const segments = 32;
-            for (let i = 0; i <= segments; i++) {
-                const theta = (i / segments) * Math.PI * 2;
-                const x = r * Math.cos(theta);
-                const y = r * Math.sin(theta);
-                if (i === 0) holePath.moveTo(x, y);
-                else holePath.lineTo(x, y);
-            }
-            shape.holes.push(holePath);
-            return shape;
-        }
-
-        function createHollowPrism() {
-            const group = new THREE.Group();
-            const h = 2.8;
-            const shape = createHollowShape();
-            const extrudeSettings = { steps: 1, depth: h, bevelEnabled: false };
-            const bodyGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-            bodyGeo.translate(0, 0, -h / 2);
-            const bodyMat = new THREE.MeshStandardMaterial({ color: 0x4a6cf7, roughness: 0.3, metalness: 0.05, transparent: true, opacity: 0.85, side: THREE.DoubleSide });
-            const body = new THREE.Mesh(bodyGeo, bodyMat);
-            body.castShadow = true;
-            group.add(body);
-
-            const baseMat = new THREE.MeshStandardMaterial({ color: 0xff6b6b, roughness: 0.1, metalness: 0.0, transparent: true, opacity: 0.95, side: THREE.DoubleSide, emissive: new THREE.Color(0xff6b6b).multiplyScalar(0.15), emissiveIntensity: 0.2 });
-            const baseGeo = new THREE.ShapeGeometry(shape);
-            const topBase = new THREE.Mesh(baseGeo, baseMat);
-            topBase.position.z = h / 2;
-            group.add(topBase);
-            const bottomBase = new THREE.Mesh(baseGeo.clone(), baseMat);
-            bottomBase.position.z = -h / 2;
-            group.add(bottomBase);
-
-            const edges = new THREE.EdgesGeometry(bodyGeo);
-            const edgeMat = new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.4 });
-            group.add(new THREE.LineSegments(edges, edgeMat));
-
-            const canvas1 = document.createElement('canvas');
-            canvas1.width = 160;
-            canvas1.height = 45;
-            const ctx1 = canvas1.getContext('2d');
-            ctx1.clearRect(0, 0, 160, 45);
-            ctx1.textAlign = 'center';
-            ctx1.textBaseline = 'middle';
-            ctx1.font = 'bold 22px Vazirmatn, Arial, sans-serif';
-            ctx1.fillStyle = '#ff6b6b';
-            ctx1.shadowColor = 'rgba(0,0,0,0.9)';
-            ctx1.shadowBlur = 12;
-            ctx1.fillText('ضلع = 4', 80, 25);
-            const texture1 = new THREE.CanvasTexture(canvas1);
-            texture1.needsUpdate = true;
-            const labelMat1 = new THREE.SpriteMaterial({ map: texture1, transparent: true, depthTest: false, depthWrite: false, sizeAttenuation: true });
-            const label1 = new THREE.Sprite(labelMat1);
-            label1.scale.set(1.0, 0.35, 1);
-            label1.position.set(0, squareSize / 2 + 0.6, h / 2 + 0.1);
-            group.add(label1);
-
-            group.position.y = 0;
-            group.rotation.x = 0.1;
-            group.rotation.y = 0.4;
-            return group;
-        }
-
-        function createCombinedShape() {
-            const shape = new THREE.Shape();
-            const s = combinedSize / 2;
-            const r = s;
-            const segments = 32;
-            shape.moveTo(-s, -s);
-            shape.lineTo(s, -s);
-            shape.lineTo(s, 0);
-            for (let i = 0; i <= segments; i++) {
-                const theta = (i / segments) * Math.PI;
-                const x = s - r + r * Math.cos(theta);
-                const y = r * Math.sin(theta);
-                if (i === 0) shape.lineTo(x, y);
-                else shape.lineTo(x, y);
-            }
-            shape.lineTo(-s, 0);
-            shape.lineTo(-s, -s);
-            shape.closePath();
-            return shape;
-        }
-
-        function createCombinedPrism() {
-            const group = new THREE.Group();
-            const h = prismHeight;
-            const shape = createCombinedShape();
-            const extrudeSettings = { steps: 1, depth: h, bevelEnabled: false };
-            const bodyGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
-            bodyGeo.translate(0, 0, -h / 2);
-            const bodyMat = new THREE.MeshStandardMaterial({ color: 0x4a6cf7, roughness: 0.3, metalness: 0.05, transparent: true, opacity: 0.85, side: THREE.DoubleSide });
-            const body = new THREE.Mesh(bodyGeo, bodyMat);
-            body.castShadow = true;
-            group.add(body);
-
-            const baseMat = new THREE.MeshStandardMaterial({ color: 0xff6b6b, roughness: 0.1, metalness: 0.0, transparent: true, opacity: 0.95, side: THREE.DoubleSide, emissive: new THREE.Color(0xff6b6b).multiplyScalar(0.15), emissiveIntensity: 0.2 });
-            const baseGeo = new THREE.ShapeGeometry(shape);
-            const topBase = new THREE.Mesh(baseGeo, baseMat);
-            topBase.position.z = h / 2;
-            group.add(topBase);
-            const bottomBase = new THREE.Mesh(baseGeo.clone(), baseMat);
-            bottomBase.position.z = -h / 2;
-            group.add(bottomBase);
-
-            const lineMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.6 });
-            const linePoints = [new THREE.Vector3(-combinedSize / 2, 0, h / 2 + 0.01), new THREE.Vector3(combinedSize / 2, 0, h / 2 + 0.01)];
-            const lineGeo = new THREE.BufferGeometry().setFromPoints(linePoints);
-            const separatorLine = new THREE.Line(lineGeo, lineMat);
-            group.add(separatorLine);
-
-            const edges = new THREE.EdgesGeometry(bodyGeo);
-            const edgeMat = new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.4 });
-            group.add(new THREE.LineSegments(edges, edgeMat));
-
-            group.position.y = 0;
-            group.rotation.x = 0.1;
-            group.rotation.y = 0.4;
-            return group;
-        }
-
-        function showShape(type) {
-            if (currentGroup) { scene.remove(currentGroup); currentGroup = null; }
-            let group = null;
-            switch (type) {
-                case 'height': group = createCylinder(currentHeight); break;
-                case 'formula': group = createPrism(3, 0x4a6cf7, 0xff6b6b, 2.8); break;
-                case 'star': group = createStarPrism(); break;
-                case 'hollow': group = createHollowPrism(); break;
-                case 'combined': group = createCombinedPrism(); break;
-                default: group = createCylinder(2.5);
-            }
-            if (group) { scene.add(group); currentGroup = group; }
-        }
-
-        // ===== توابع اسلایدها و آزمون (مشابه بخش اول) =====
-        function renderSlide(index) {
-            const slide = slides[index];
-            document.getElementById('slide-title-text').textContent = slide.title;
-            document.getElementById('slide-num-text').textContent = `${index + 1} / ${slides.length}`;
-            document.getElementById('slide-body').innerHTML = slide.body;
-            document.getElementById('prev-btn').disabled = index === 0;
-            document.getElementById('slide-counter').textContent = `${index + 1} / ${slides.length}`;
-            const nextBtn = document.getElementById('next-btn');
-            if (index === slides.length - 1) {
-                nextBtn.textContent = localStorage.getItem('exam_section8_2_done') === 'true' ? '🔁 رفتن به بخش سوم' : '📝 شروع آزمون';
-            } else {
-                nextBtn.textContent = 'بعدی ←';
-            }
-            document.getElementById('height-control').style.display = slide.showSlider ? 'flex' : 'none';
-            showShape(slide.shapeType);
-            const content = document.getElementById('slide-content');
-            content.classList.remove('fade-in');
-            void content.offsetWidth;
-            content.classList.add('fade-in');
-        }
-
-        // ===== توابع آزمون (کاملاً مشابه بخش اول) =====
-        function renderExamQuestion(index) {
-            const area = document.getElementById('exam-question-area');
-            const q = examQuestions[index];
-            const letters = ['الف', 'ب', 'ج', 'د'];
-            const div = document.createElement('div');
-            div.className = 'exam-question';
-            div.dataset.qid = q.id;
-            const qText = document.createElement('div');
-            qText.className = 'q-text';
-            qText.innerHTML = `<span class="q-num">${index + 1}.</span> ${q.text}`;
-            div.appendChild(qText);
-            const optionsDiv = document.createElement('div');
-            optionsDiv.className = 'options';
-            q.options.forEach((opt, oi) => {
-                const label = document.createElement('label');
-                label.className = 'option-label';
-                const radio = document.createElement('input');
-                radio.type = 'radio';
-                radio.name = `exam_q${q.id}`;
-                radio.value = oi;
-                radio.dataset.qid = q.id;
-                if (userAnswers[q.id] !== undefined && userAnswers[q.id] === oi) {
-                    radio.checked = true;
-                    label.classList.add('selected');
-                }
-                if (examSubmitted) {
-                    radio.disabled = true;
-                    label.classList.add('disabled');
-                    if (oi === q.correct) label.classList.add('correct');
-                    else if (userAnswers[q.id] === oi && userAnswers[q.id] !== q.correct) label.classList.add('wrong');
-                }
-                const letterSpan = document.createElement('span');
-                letterSpan.className = 'letter';
-                letterSpan.textContent = `${letters[oi]})`;
-                const textSpan = document.createElement('span');
-                textSpan.textContent = opt;
-                label.appendChild(radio);
-                label.appendChild(letterSpan);
-                label.appendChild(textSpan);
-                if (!examSubmitted && !examLocked) {
-                    label.addEventListener('click', () => {
-                        if (examSubmitted || examLocked) return;
-                        const parent = label.closest('.exam-question');
-                        parent.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
-                        label.classList.add('selected');
-                        radio.checked = true;
-                        userAnswers[q.id] = oi;
-                        document.getElementById('exam-confirm-btn').disabled = false;
-                    });
-                }
-                optionsDiv.appendChild(label);
-            });
-            div.appendChild(optionsDiv);
-            area.innerHTML = '';
-            area.appendChild(div);
-            document.getElementById('exam-progress').textContent = `سوال ${index + 1} از ${examQuestions.length}`;
-            if (userAnswers[q.id] !== undefined && !examSubmitted) {
-                document.getElementById('exam-confirm-btn').disabled = false;
-            } else {
-                document.getElementById('exam-confirm-btn').disabled = true;
-            }
-            if (examSubmitted) document.getElementById('exam-confirm-btn').disabled = true;
-        }
-
-        function showExamResult() {
-            const resultDiv = document.getElementById('exam-result');
-            const scoreSpan = document.getElementById('exam-score');
-            const msgSpan = document.getElementById('exam-msg');
-            let correctCount = 0;
-            examQuestions.forEach(q => { if (userAnswers[q.id] === q.correct) correctCount++; });
-            scoreSpan.textContent = `${correctCount} از ${examQuestions.length}`;
-            msgSpan.textContent = correctCount === examQuestions.length ? '🎉 عالی! همه پاسخ‌ها درست بود!' : `✅ شما ${correctCount} پاسخ درست دادید.`;
-            msgSpan.style.color = correctCount >= 3 ? '#00ff88' : '#ffd700';
-            resultDiv.classList.add('show');
-            document.getElementById('exam-confirm-btn').disabled = true;
-            document.querySelectorAll('.option-label input[type="radio"]').forEach(r => r.disabled = true);
-            document.querySelectorAll('.option-label').forEach(l => l.classList.add('disabled'));
-        }
-
-        function showModal(icon, title, desc, btnText, isLastQuestion, callback) {
-            const modal = document.getElementById('confirm-modal');
-            document.getElementById('modal-icon').textContent = icon;
-            const titleEl = document.getElementById('modal-title');
-            titleEl.textContent = title;
-            titleEl.className = 'title ' + (icon === '✅' ? 'correct' : 'wrong');
-            document.getElementById('modal-desc').textContent = desc;
-            const btn = document.getElementById('modal-next-btn');
-            btn.textContent = isLastQuestion ? 'پایان آزمون' : 'سوال بعدی';
-            btn.onclick = () => {
-                modal.classList.remove('show');
-                if (callback) callback();
-            };
-            modal.classList.add('show');
-        }
-
-        function confirmAnswer() {
-            if (examSubmitted || examLocked) return;
-            const currentQ = examQuestions[currentExamIndex];
-            const selected = userAnswers[currentQ.id];
-            if (selected === undefined) {
-                showModal('⚠️', 'لطفاً یک گزینه انتخاب کنید!', 'برای تایید پاسخ، ابتدا یکی از گزینه‌ها را انتخاب کنید.', 'باشه', false, () => {});
-                return;
-            }
-            const isCorrect = selected === currentQ.correct;
-            const icon = isCorrect ? '✅' : '❌';
-            const title = isCorrect ? 'پاسخ درست! 🎉' : 'پاسخ نادرست! 😞';
-            const desc = currentQ.explanation;
-            const isLast = currentExamIndex === examQuestions.length - 1;
-            document.getElementById('exam-confirm-btn').disabled = true;
-            showModal(icon, title, desc, isLast ? 'پایان آزمون' : 'سوال بعدی', isLast, () => {
-                if (isLast) { finishExam(); } else { currentExamIndex++; renderExamQuestion(currentExamIndex); document.getElementById('exam-confirm-btn').disabled = true; }
-            });
-        }
-
-        async function finishExam() {
-            if (examSubmitted || examLocked) return;
-            examLocked = true;
-            examSubmitted = true;
-            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-            let correctCount = 0;
-            examQuestions.forEach(q => { if (userAnswers[q.id] === q.correct) correctCount++; });
-            const userId = localStorage.getItem('math9_userId');
-            const name = localStorage.getItem('math9_name') || 'نامشخص';
-            const cls = localStorage.getItem('math9_class') || 'نامشخص';
-            if (userId) {
-                try {
-                    const payload = { action: 'saveResult', userId, name, class: cls, chapter: 2, correct: correctCount, total: examQuestions.length, percent: Math.round((correctCount / examQuestions.length) * 100) };
-                    await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true });
-                } catch (error) { console.error('❌ خطا در ارسال درخواست:', error); }
-            }
-            localStorage.setItem('exam_section8_2_done', 'true');
-            document.getElementById('exam-question-area').innerHTML = '';
-            showExamResult();
-            document.getElementById('exam-confirm-btn').disabled = true;
-            document.getElementById('exam-timer').textContent = '⏱️ پایان';
-            document.getElementById('goto-section3-btn').style.display = 'inline-block';
-            examLocked = false;
-        }
-
-        function startTimer() {
-            timeLeft = 720;
-            const timerEl = document.getElementById('exam-timer');
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                const mins = Math.floor(timeLeft / 60);
-                const secs = timeLeft % 60;
-                timerEl.textContent = `⏱️ ${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-                if (timeLeft <= 60) timerEl.classList.add('warning');
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                    timerEl.textContent = '⏱️ زمان تمام شد!';
-                    if (!examSubmitted) {
-                        examSubmitted = true;
-                        examLocked = true;
-                        let correctCount = 0;
-                        examQuestions.forEach(q => { if (userAnswers[q.id] === q.correct) correctCount++; });
-                        const userId = localStorage.getItem('math9_userId');
-                        const name = localStorage.getItem('math9_name') || 'نامشخص';
-                        const cls = localStorage.getItem('math9_class') || 'نامشخص';
-                        if (userId) {
-                            const payload = { action: 'saveResult', userId, name, class: cls, chapter: 2, correct: correctCount, total: examQuestions.length, percent: Math.round((correctCount / examQuestions.length) * 100) };
-                            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
-                        }
-                        localStorage.setItem('exam_section8_2_done', 'true');
-                        showExamResult();
-                        document.getElementById('exam-confirm-btn').disabled = true;
-                        document.getElementById('goto-section3-btn').style.display = 'inline-block';
-                        examLocked = false;
-                    }
-                }
-            }, 1000);
-        }
-
-        function startExam() {
-            try {
-                if (localStorage.getItem('exam_section8_2_done') === 'true') {
-                    if (confirm('✅ شما قبلاً در این آزمون شرکت کرده‌اید. آیا می‌خواهید به بخش سوم بروید؟')) {
-                        window.location.href = 'chapter8-3.html';
-                    }
-                    return;
-                }
-                const examScreen = document.getElementById('exam-screen');
-                examScreen.classList.add('show');
-                document.getElementById('slide-content').style.display = 'none';
-                document.getElementById('nav-buttons').style.display = 'none';
-                document.getElementById('height-control').style.display = 'none';
-                if (currentGroup) { scene.remove(currentGroup); currentGroup = null; }
-                currentExamIndex = 0;
-                userAnswers = {};
-                examSubmitted = false;
-                examLocked = false;
-                document.getElementById('exam-result').classList.remove('show');
-                document.getElementById('goto-section3-btn').style.display = 'none';
-                document.getElementById('exam-timer').classList.remove('warning');
-                renderExamQuestion(0);
-                if (timerInterval) clearInterval(timerInterval);
-                startTimer();
-            } catch (error) { console.error('❌ خطا در startExam:', error); alert('خطایی رخ داد. لطفاً دوباره تلاش کنید.'); }
-        }
-
-        // ===== رویدادها =====
-        document.getElementById('prev-btn').addEventListener('click', () => { if (currentSlide > 0) { currentSlide--; renderSlide(currentSlide); } });
-        document.getElementById('next-btn').addEventListener('click', () => {
-            if (currentSlide === slides.length - 1) {
-                if (localStorage.getItem('exam_section8_2_done') === 'true') {
-                    if (confirm('✅ شما قبلاً در این آزمون شرکت کرده‌اید. آیا می‌خواهید به بخش سوم بروید؟')) {
-                        window.location.href = 'chapter8-3.html';
-                    }
-                    return;
-                }
-                startExam();
-                return;
-            }
-            if (currentSlide < slides.length - 1) { currentSlide++; renderSlide(currentSlide); }
+/* ============================================================
+   EXPLAIN (+ سنجش تکوینی)
+   ============================================================ */
+const explainAnswers = { ex1:'60', ex2:'b' };
+function initExplain(){
+  document.querySelectorAll('#panel-explain .check-q').forEach(box=>{
+    const qid = box.dataset.qid;
+    const already = state.explain.answered[qid];
+    box.querySelectorAll('.opt-item').forEach(opt=>{
+      opt.classList.remove('selected','correct','wrong','disabled');
+      if (already !== undefined) {
+        opt.classList.add('disabled');
+        if (opt.dataset.val === explainAnswers[qid]) opt.classList.add('correct');
+        else if (opt.dataset.val === already) opt.classList.add('wrong');
+      }
+      opt.onclick = () => {
+        if (state.explain.answered[qid] !== undefined) return;
+        const val = opt.dataset.val;
+        state.explain.answered[qid] = val;
+        state.explain.total++;
+        const correct = val === explainAnswers[qid];
+        if (correct) state.explain.correct++;
+        box.querySelectorAll('.opt-item').forEach(o=>{
+          o.classList.add('disabled');
+          if (o.dataset.val === explainAnswers[qid]) o.classList.add('correct');
+          else if (o === opt && !correct) o.classList.add('wrong');
         });
-        document.getElementById('height-slider').addEventListener('input', function() {
-            currentHeight = parseFloat(this.value);
-            document.getElementById('height-value').textContent = currentHeight.toFixed(1);
-            if (slides[currentSlide].shapeType === 'height') showShape('height');
-        });
-        document.getElementById('close-exam-btn').addEventListener('click', () => {
-            if (examSubmitted) {
-                if (confirm('آزمون کامل شده است. آیا می‌خواهید به اسلایدها بازگردید؟')) {
-                    document.getElementById('exam-screen').classList.remove('show');
-                    document.getElementById('slide-content').style.display = 'flex';
-                    document.getElementById('nav-buttons').style.display = 'flex';
-                    if (timerInterval) clearInterval(timerInterval);
-                    renderSlide(currentSlide);
-                }
-            } else {
-                if (confirm('آیا از بازگشت به اسلایدها مطمئن هستید؟ پیشرفت آزمون از دست خواهد رفت.')) {
-                    document.getElementById('exam-screen').classList.remove('show');
-                    document.getElementById('slide-content').style.display = 'flex';
-                    document.getElementById('nav-buttons').style.display = 'flex';
-                    if (timerInterval) clearInterval(timerInterval);
-                    renderSlide(currentSlide);
-                }
-            }
-        });
-        document.getElementById('exam-confirm-btn').addEventListener('click', confirmAnswer);
-        document.getElementById('goto-section3-btn').addEventListener('click', () => { window.location.href = 'chapter8-3.html'; });
+        checkExplainUnlock();
+        saveProgress(false);
+      };
+    });
+  });
+  checkExplainUnlock();
+}
+function checkExplainUnlock(){
+  const total = Object.keys(explainAnswers).length;
+  const answered = Object.keys(state.explain.answered).length;
+  document.getElementById('explain-to-elaborate-btn').disabled = answered < total;
+}
+document.getElementById('explain-to-elaborate-btn').addEventListener('click', ()=>showStage('elaborate'));
 
-        document.addEventListener('keydown', (e) => {
-            if (document.getElementById('exam-screen').classList.contains('show')) {
-                if (e.key === 'Escape') document.getElementById('close-exam-btn').click();
-                if (e.key === 'Enter' && !document.getElementById('exam-confirm-btn').disabled) {
-                    e.preventDefault();
-                    document.getElementById('exam-confirm-btn').click();
-                }
-                return;
-            }
-            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); document.getElementById('next-btn').click(); }
-            if (e.key === 'ArrowLeft') { e.preventDefault(); document.getElementById('prev-btn').click(); }
-        });
+/* ============================================================
+   ELABORATE — قاعدهٔ توخالی و ترکیبی
+   ============================================================ */
+const elaborateShapes = {
+  hollow: {
+    label: 'قاعدهٔ توخالی',
+    desc: 'قاعده یک مربع به ضلع ۴ است که یک دایره به شعاع ۱ از وسط آن خالی شده. ارتفاع منشور = ۴.',
+    op: 'subtract',
+    steps: 'مساحت مربع = ۴×۴ = ۱۶ — مساحت دایره = ۳×۱×۱ = ۳ — مساحت قاعده = ۱۶ − ۳ = ۱۳ — حجم = ۱۳ × ۴ = ۵۲',
+    build: () => createHollowPrism(2.6, 0.7, 1.6, 0x2ec4b6)
+  },
+  combined: {
+    label: 'قاعدهٔ ترکیبی',
+    desc: 'قاعده از یک مربع به ضلع ۸ به‌همراه یک نیم‌دایره به شعاع ۴ روی یکی از اضلاع تشکیل شده. ارتفاع منشور = ۱۰.',
+    op: 'add',
+    steps: 'مساحت مربع = ۸×۸ = ۶۴ — مساحت نیم‌دایره = (۳×۴×۴)÷۲ = ۲۴ — مساحت قاعده = ۶۴ + ۲۴ = ۸۸ — حجم = ۸۸ × ۱۰ = ۸۸۰',
+    build: () => createCombinedPrism(2.6, 1.8, 0xe2703a)
+  }
+};
+let elaborateShape = 'hollow';
+function initElaborate(){
+  if (!renderers['three-container-elaborate']) makeScene('three-container-elaborate');
+  renderElaborateShape();
+}
+function renderElaborateShape(){
+  const s = elaborateShapes[elaborateShape];
+  setGroup(renderers['three-container-elaborate'], s.build());
+  document.getElementById('tog-hollow').classList.toggle('active', elaborateShape==='hollow');
+  document.getElementById('tog-combined').classList.toggle('active', elaborateShape==='combined');
+  document.getElementById('elaborate-desc').textContent = s.desc;
+  const wrap = document.getElementById('criteria-wrap');
+  const already = state.elaborate.checks[elaborateShape];
+  wrap.innerHTML = `<div class="criteria-row" style="display:block;">
+      <div style="margin-bottom:6px;">برای پیدا کردن مساحت قاعده، بخش اضافه را باید...؟</div>
+      <div class="yn">
+        <button data-op="add" id="op-add">➕ جمع کنیم</button>
+        <button data-op="subtract" id="op-sub">➖ کم کنیم</button>
+      </div>
+    </div>`;
+  const addBtn = document.getElementById('op-add'), subBtn = document.getElementById('op-sub');
+  function pick(op){
+    if (already !== undefined) return;
+    const correct = op === s.op;
+    state.elaborate.checks[elaborateShape] = correct;
+    state.elaborate.total++;
+    if (correct) state.elaborate.correct++;
+    (op==='add'?addBtn:subBtn).classList.add(correct?'chosen-right':'chosen-wrong');
+    if (!correct) (s.op==='add'?addBtn:subBtn).classList.add('chosen-right');
+    document.getElementById('elaborate-desc').textContent = s.desc + '  —  ' + s.steps;
+    checkElaborateUnlock();
+    saveProgress(false);
+  }
+  addBtn.onclick = ()=>pick('add');
+  subBtn.onclick = ()=>pick('subtract');
+  if (already !== undefined) {
+    addBtn.disabled = true; subBtn.disabled = true;
+    (s.op==='add'?addBtn:subBtn).classList.add('chosen-right');
+    if (!already) (s.op==='add'?subBtn:addBtn).classList.add('chosen-wrong');
+    document.getElementById('elaborate-desc').textContent = s.desc + '  —  ' + s.steps;
+  }
+}
+function checkElaborateUnlock(){
+  const done = state.elaborate.checks['hollow'] !== undefined && state.elaborate.checks['combined'] !== undefined;
+  document.getElementById('elaborate-to-evaluate-btn').disabled = !done;
+  document.getElementById('elaborate-summary').style.display = done ? 'block' : 'none';
+  if (done) document.getElementById('elaborate-summary').textContent = '📌 نتیجه: وقتی قسمتی از قاعده کم شده (مثل سوراخ)، مساحتش را کم می‌کنیم؛ وقتی قسمتی به قاعده اضافه شده، مساحتش را جمع می‌کنیم. در هر دو حالت در پایان S را در h ضرب می‌کنیم.';
+}
+document.getElementById('tog-hollow').addEventListener('click', ()=>{ elaborateShape='hollow'; renderElaborateShape(); });
+document.getElementById('tog-combined').addEventListener('click', ()=>{ elaborateShape='combined'; renderElaborateShape(); });
+document.getElementById('elaborate-to-evaluate-btn').addEventListener('click', ()=>showStage('evaluate'));
 
-        // ===== شروع =====
-        initThree();
-        renderSlide(0);
-        console.log('📐 فصل ۸ - بخش دوم (حجم‌های منشوری و استوانه)');
-    </script>
+/* ============================================================
+   EVALUATE — پرسش‌های نهایی با برچسب سطح شناختی بلوم
+   ============================================================ */
+const evalQuestions = [
+  { id:0, bloom:'apply', text:'منبع آبی به شکل استوانه، شعاع قاعده ۲ متر و ارتفاع ۵ متر دارد. حجم آن چند متر مکعب است؟ (پی=۳)', options:['۱۰','۳۰','۶۰','۹۰'], correct:2, explanation:'حجم = (۳×۲×۲) × ۵ = ۶۰ متر مکعب.' },
+  { id:1, bloom:'apply', text:'قاعدهٔ منشوری مثلث قائم‌الزاویه با ضلع‌های قائمه ۳ و ۴ است و ارتفاع منشور ۵. حجم آن چقدر است؟', options:['۱۵','۳۰','۴۵','۶۰'], correct:1, explanation:'مساحت قاعده = (۳×۴)÷۲ = ۶. حجم = ۶×۵ = ۳۰.' },
+  { id:2, bloom:'remember', text:'حجم مکعبی به ضلع ۴ چند است؟', options:['۱۶','۳۲','۴۸','۶۴'], correct:3, explanation:'حجم مکعب = ضلع×ضلع×ضلع = ۴×۴×۴ = ۶۴.' },
+  { id:3, bloom:'understand', text:'قاعدهٔ منشوری ذوزنقه‌ای با قاعده‌های ۴ و ۶ و ارتفاع ذوزنقه ۳ است؛ ارتفاع منشور ۸. حجم چقدر است؟', options:['۶۰','۹۰','۱۲۰','۱۵۰'], correct:2, explanation:'مساحت ذوزنقه = (۴+۶)×۳÷۲ = ۱۵. حجم = ۱۵×۸ = ۱۲۰.' },
+  { id:4, bloom:'apply', text:'قاعدهٔ منشوری لوزی با قطرهای ۶ و ۸ است؛ ارتفاع منشور ۱۰. حجم چقدر است؟', options:['۱۲۰','۱۸۰','۲۴۰','۳۰۰'], correct:2, explanation:'مساحت لوزی = (۶×۸)÷۲ = ۲۴. حجم = ۲۴×۱۰ = ۲۴۰.' },
+  { id:5, bloom:'analyze', text:'قاعدهٔ منشوری، مربعی به ضلع ۵ است که یک دایره به شعاع ۱ از وسط آن خالی شده. اگر ارتفاع منشور ۳ باشد، حجم آن چند است؟ (پی=۳)', options:['۶۰','۶۶','۶۹','۷۵'], correct:1, explanation:'مساحت مربع = ۵×۵=۲۵، مساحت دایره = ۳×۱×۱=۳. مساحت قاعده = ۲۵−۳=۲۲. حجم = ۲۲×۳ = ۶۶.' }
+];
+const bloomLabel = { remember:'به‌خاطر آوردن', understand:'فهمیدن', apply:'کاربرد', analyze:'تحلیل' };
+function initEvaluate(){ renderEvalQuestion(state.evaluate.idx); }
+function renderEvalQuestion(i){
+  const q = evalQuestions[i];
+  const letters = ['الف','ب','ج','د'];
+  const area = document.getElementById('eval-question-area');
+  const already = state.evaluate.answers[q.id];
+  const submitted = already !== undefined && state.evaluate.locked === q.id ? true : (already !== undefined && state.evaluate.finishedQ && state.evaluate.finishedQ[q.id]);
+  area.innerHTML = `<div>${i+1}. ${q.text} <span class="bloom-tag bloom-${q.bloom}">${bloomLabel[q.bloom]}</span></div><div class="opt-list" id="eval-opts"></div>`;
+  const optsDiv = document.getElementById('eval-opts');
+  q.options.forEach((opt,oi)=>{
+    const div = document.createElement('div');
+    div.className = 'opt-item';
+    div.textContent = `${letters[oi]}) ${opt}`;
+    if (already === oi) div.classList.add('selected');
+    div.onclick = () => {
+      if (state.evaluate.finishedQ && state.evaluate.finishedQ[q.id]) return;
+      optsDiv.querySelectorAll('.opt-item').forEach(o=>o.classList.remove('selected'));
+      div.classList.add('selected');
+      state.evaluate.answers[q.id] = oi;
+      document.getElementById('eval-confirm-btn').disabled = false;
+      saveProgress(false);
+    };
+    optsDiv.appendChild(div);
+  });
+  document.getElementById('eval-progress').textContent = `سؤال ${toFa(i+1)} از ${toFa(evalQuestions.length)}`;
+  document.getElementById('eval-confirm-btn').disabled = already === undefined;
+}
+document.getElementById('eval-confirm-btn').addEventListener('click', ()=>{
+  const q = evalQuestions[state.evaluate.idx];
+  const sel = state.evaluate.answers[q.id];
+  if (sel === undefined) return;
+  if (!state.evaluate.finishedQ) state.evaluate.finishedQ = {};
+  if (state.evaluate.finishedQ[q.id]) { advanceEval(); return; }
+  const correct = sel === q.correct;
+  state.evaluate.finishedQ[q.id] = true;
+  const optsDiv = document.getElementById('eval-opts');
+  optsDiv.querySelectorAll('.opt-item').forEach((o,oi)=>{
+    o.classList.add('disabled');
+    if (oi === q.correct) o.classList.add('correct');
+    else if (oi === sel) o.classList.add('wrong');
+  });
+  const area = document.getElementById('eval-question-area');
+  const explDiv = document.createElement('div');
+  explDiv.className = 'hint';
+  explDiv.textContent = (correct ? '✅ درست بود! ' : '❌ نادرست. ') + q.explanation;
+  area.appendChild(explDiv);
+  document.getElementById('eval-confirm-btn').textContent = state.evaluate.idx === evalQuestions.length-1 ? 'پایان آزمون 🏁' : 'سؤال بعدی ←';
+  saveProgress(false);
+});
+function advanceEval(){
+  if (state.evaluate.idx < evalQuestions.length-1) {
+    state.evaluate.idx++;
+    document.getElementById('eval-confirm-btn').textContent = 'تأیید پاسخ ✅';
+    renderEvalQuestion(state.evaluate.idx);
+    saveProgress(false);
+  } else {
+    finishEvaluate();
+  }
+}
+function finishEvaluate(){
+  state.evaluate.submitted = true;
+  saveProgress(true);
+  showStage('final');
+}
+
+/* ============================================================
+   FINAL
+   ============================================================ */
+function initFinal(){
+  let correct = 0; const bloomStats = {};
+  evalQuestions.forEach(q=>{
+    if (!bloomStats[q.bloom]) bloomStats[q.bloom] = {c:0,t:0};
+    bloomStats[q.bloom].t++;
+    if (state.evaluate.answers[q.id] === q.correct) { correct++; bloomStats[q.bloom].c++; }
+  });
+  document.getElementById('final-score').textContent = `${toFa(correct)} از ${toFa(evalQuestions.length)}`;
+  document.getElementById('final-msg').textContent = correct === evalQuestions.length ? '🎉 عالی بود، همه چیز را یاد گرفتی!' : (correct >= 4 ? 'آفرین! خوب پیش رفتی.' : 'خوب بود؛ شاید یک‌بار دیگر مرور کنی کمک کند.');
+  const rep = document.getElementById('bloom-report');
+  rep.innerHTML = '<div style="font-weight:700;margin-bottom:4px;">عملکرد بر اساس سطح شناختی:</div>' +
+    Object.keys(bloomStats).map(b=>`<div class="row"><span>${bloomLabel[b]}</span><span>${toFa(bloomStats[b].c)} از ${toFa(bloomStats[b].t)}</span></div>`).join('');
+  const explTotal = Object.keys(explainAnswers).length;
+  const exploreTried = Object.keys(state.explore.valuesTried).length;
+  const summaryRow = document.createElement('div');
+  summaryRow.className = 'eval-summary-row';
+  summaryRow.innerHTML = `<span>تلاش‌های کاوش: ${toFa(state.explore.attempts)}</span><span>سنجش تکوینی: ${toFa(state.explain.correct)} از ${toFa(explTotal)}</span>`;
+  rep.appendChild(summaryRow);
+  // ارسال نتیجهٔ نهایی سازگار با ساختار قبلی نمرات
+  if (userId) {
+    try {
+      fetch(SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, keepalive:true,
+        body: JSON.stringify({ action:'saveResult', userId, name:userName, class:userClass, chapter:2, correct, total: evalQuestions.length, percent: Math.round((correct/evalQuestions.length)*100) }) }).catch(()=>{});
+    } catch(e){}
+  }
+  localStorage.setItem('exam_section8_2_done','true');
+}
+document.getElementById('goto-section2-btn').addEventListener('click', ()=>{ window.location.href = 'chapter8-3.html'; });
+document.getElementById('back-to-panel-btn').addEventListener('click', ()=>{ window.location.href = 'index.html'; });
+document.getElementById('exit-btn').addEventListener('click', ()=>{ if(confirm('آیا می‌خواهی خارج شوی؟ پیشرفتت ذخیره شده و می‌توانی بعداً ادامه دهی.')) window.location.href = 'index.html'; });
+
+/* ============================================================
+   شروع
+   ============================================================ */
+window.addEventListener('beforeunload', ()=> saveProgress(true));
+showStage(STAGES.includes(state.stage) ? state.stage : 'engage');
+console.log('📐 فصل ۸ - بخش دوم (مدل ۵E)');
+</script>
 </body>
 </html>
